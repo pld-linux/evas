@@ -1,11 +1,18 @@
 #
-%bcond_with	mmx
-%bcond_with	sse
-%bcond_with	altivec
+%bcond_without	mmx		# without MMX and MMX2
+%bcond_without	sse		# without SSE
+%bcond_without	altivec		# without altivec
 #
-%ifarch i686 athlon
-%define	with_mmx	1
+%ifnarch i586 i686 athlon
+%undefine	with_mmx
 %endif
+%ifnarch i686 athlon
+%undefine	with_sse
+%endif
+%ifnarch ppc
+%undefine	with_altivec
+%endif
+#
 Summary:	Multi-platform Canvas Library
 Summary(pl):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
@@ -22,7 +29,7 @@ BuildRequires:	DirectFB-devel
 BuildRequires:	OpenGL-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
-#BuildRequires:	cairo-devel
+BuildRequires:	cairo-devel
 BuildRequires:	edb-devel
 BuildRequires:	eet-devel
 BuildRequires:	freetype-devel
@@ -49,7 +56,7 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	DirectFB-devel
 Requires:	OpenGL-devel
-#Requires:	cairo-devel
+Requires:	cairo-devel
 Requires:	edb-devel
 Requires:	eet-devel
 Requires:	freetype-devel
@@ -108,9 +115,7 @@ Statyczna biblioteka Evas.
 	--disable-cpu-altivec	\
 %endif
 	--enable-cpu-c
-#/usr/lib/libcairo.so: undefined reference to `pixman_image_get_format'
-#/usr/lib/libcairo.so: undefined reference to `pixman_format_get_masks'
-# -- it looks like cairo problem, not evas; too  old libpixman?
+
 %{__make}
 
 %install

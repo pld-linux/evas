@@ -56,7 +56,7 @@ Pliki nag³ówkowe Evas.
 
 %package static
 Summary:	Static Evas library
-Summary(pl);	Statyczna biblioteka Evas
+Summary(pl):	Statyczna biblioteka Evas
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 

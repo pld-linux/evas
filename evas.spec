@@ -1,15 +1,22 @@
+#
+%bcond_with	mmx
+%bcond_with	sse
+%bcond_with	altivec
+#
+%ifarch i686 athlon
+%define	with_mmx	1
+%endif
 Summary:	Multi-platform Canvas Library
 Summary(pl):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
-Version:	1.0.0
-#%define _pre	pre13
-%define _snap	20050106
+Version:	0.9.9
+%define	_snap	20050329
 Release:	0.%{_snap}.0.1
 License:	BSD
 Group:		Libraries
 #Source0:	http://dl.sourceforge.net/enlightenment/%{name}-%{version}_%{_pre}.tar.gz
-Source0:	ftp://ftp.sparky.homelinux.org/pub/e17/%{name}-%{version}-%{_snap}.tar.gz
-# Source0-md5:	90bf34e3e6aaedaaa20856b2b5bbf6ad
+Source0:	ftp://ftp.sparky.homelinux.org/pub/e17/%{name}-%{_snap}.tar.gz
+# Source0-md5:	d29b5c91e01c3eda9ff8a940dfe84398
 URL:		http://enlightenment.org/
 BuildRequires:	DirectFB-devel
 BuildRequires:	OpenGL-devel
@@ -22,6 +29,7 @@ BuildRequires:	freetype-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtool
+BuildRequires:	pkgconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -72,12 +80,34 @@ Statyczna biblioteka Evas.
 
 %build
 %{__libtoolize}
-%{__aclocal}
+%{__aclocal} -I m4
 %{__autoconf}
 %{__autoheader}
 %{__automake}
 %configure \
-	--disable-cairo-x11
+	--enable-software-x11 	\
+	--enable-direct-fb	\
+	--enable-fb		\
+	--enable-buffer		\
+	--disable-software-qtopia \
+	--enable-gl-x11		\
+	--enable-cairo-x11	\
+%if %{with mmx}
+	--enable-cpu-mmx	\
+%else
+	--disable-cpu-mmx	\
+%endif
+%if %{with sse}
+	--enable-cpu-sse	\
+%else
+	--disable-cpu-sse	\
+%endif
+%if %{with altivec}
+	--enable-cpu-altivec	\
+%else
+	--disable-cpu-altivec	\
+%endif
+	--enable-cpu-c
 #/usr/lib/libcairo.so: undefined reference to `pixman_image_get_format'
 #/usr/lib/libcairo.so: undefined reference to `pixman_format_get_masks'
 # -- it looks like cairo problem, not evas; too  old libpixman?

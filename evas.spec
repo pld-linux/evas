@@ -16,20 +16,19 @@
 Summary:	Multi-platform Canvas Library
 Summary(pl):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
-Version:	0.9.9
-%define	_snap	20050329
+Version:	0.9.9.010
+%define	_snap	20050706
 Release:	0.%{_snap}.0.1
 License:	BSD
 Group:		Libraries
 #Source0:	http://dl.sourceforge.net/enlightenment/%{name}-%{version}_%{_pre}.tar.gz
-Source0:	ftp://ftp.sparky.homelinux.org/pub/e17/%{name}-%{_snap}.tar.gz
-# Source0-md5:	d29b5c91e01c3eda9ff8a940dfe84398
+Source0:	ftp://ftp.sparky.homelinux.org/snaps/enli/e17/libs/%{name}-%{_snap}.tar.gz
+# Source0-md5:	a798480eacc9437d84ed12d64f789fc5
 URL:		http://enlightenment.org/
 BuildRequires:	DirectFB-devel
 BuildRequires:	OpenGL-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	cairo-devel
 BuildRequires:	edb-devel
 BuildRequires:	eet-devel
 BuildRequires:	freetype-devel
@@ -37,6 +36,7 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
+Requires:	fonts-TTF-bitstream-vera
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -56,7 +56,6 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	DirectFB-devel
 Requires:	OpenGL-devel
-Requires:	cairo-devel
 Requires:	edb-devel
 Requires:	eet-devel
 Requires:	freetype-devel
@@ -93,12 +92,17 @@ Statyczna biblioteka Evas.
 %{__automake}
 %configure \
 	--enable-software-x11 	\
+	--disable-software-xcb	\
 	--enable-direct-fb	\
 	--enable-fb		\
 	--enable-buffer		\
 	--disable-software-qtopia \
 	--enable-gl-x11		\
-	--enable-cairo-x11	\
+	--enable-image-loader-png	\
+	--enable-image-loader-jpeg	\
+	--enable-image-loader-eet	\
+	--enable-font-loader-eet	\
+	--enable-image-loader-edb	\
 %if %{with mmx}
 	--enable-cpu-mmx	\
 %else
@@ -124,6 +128,13 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+cd $RPM_BUILD_ROOT%{_datadir}/%{name}
+VERA=$(ls Vera*.ttf)
+for FONT in $VERA; do
+	rm -f $FONT
+	ln -s %{_fontsdir}/TTF/$FONT .
+done
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -132,7 +143,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS README COPYING
+%doc AUTHORS COPYING COPYING-PLAIN INSTALL README
 %attr(755,root,root) %{_bindir}/evas_*
 %attr(755,root,root) %{_libdir}/libevas.so.*.*.*
 %{_datadir}/%{name}

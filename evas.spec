@@ -16,14 +16,12 @@
 Summary:	Multi-platform Canvas Library
 Summary(pl):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
-Version:	0.9.9.010
-%define	_snap	20050706
-Release:	0.%{_snap}.0.1
+Version:	0.9.9.013
+Release:	1
 License:	BSD
 Group:		Libraries
-#Source0:	http://dl.sourceforge.net/enlightenment/%{name}-%{version}_%{_pre}.tar.gz
-Source0:	http://sparky.homelinux.org/snaps/enli/e17/libs/%{name}-%{_snap}.tar.gz
-# Source0-md5:	a798480eacc9437d84ed12d64f789fc5
+Source0:	http://enlightenment.freedesktop.org/files/%{name}-%{version}.tar.gz
+# Source0-md5:	6d888cc6427d783ae517185c1e446e38
 URL:		http://enlightenment.org/
 BuildRequires:	DirectFB-devel
 BuildRequires:	OpenGL-devel
@@ -81,12 +79,11 @@ Static Evas library.
 Statyczna biblioteka Evas.
 
 %prep
-#%%setup -q -n %{name}-%{version}_%{_pre}
-%setup -q -n %{name}
+%setup -q
 
 %build
 %{__libtoolize}
-%{__aclocal} -I m4
+%{__aclocal}
 %{__autoconf}
 %{__autoheader}
 %{__automake}

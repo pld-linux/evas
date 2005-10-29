@@ -35,6 +35,7 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
+Requires:	%{name}-libs = %{version}-%{release}
 Requires:	fonts-TTF-bitstream-vera
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -48,11 +49,22 @@ Evas to czyste API "p³ótna obrazu" dla ró¿nych systemów wy¶wietlania,
 bêd±ce w stanie rysowaæ tekst z antyaliasingiem, wyg³adzane, skalowane
 obrazy, obiekty z alpha-blendingiem i inne elementy.
 
+%package libs
+Summary:	Evas library
+Summary(pl):	Biblioteka evas
+Group:		X11/Libraries
+
+%description libs
+Evas library.
+
+%description libs -l pl
+Biblioteka evas.
+
 %package devel
 Summary:	Evas header files
 Summary(pl):	Pliki nag³ówkowe Evas
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}-libs = %{version}-%{release}
 Requires:	DirectFB-devel
 Requires:	OpenGL-devel
 Requires:	edb-devel
@@ -137,15 +149,18 @@ done
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post   -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+%post libs	-p /sbin/ldconfig
+%postun libs	-p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS COPYING COPYING-PLAIN INSTALL README
 %attr(755,root,root) %{_bindir}/evas_*
-%attr(755,root,root) %{_libdir}/libevas.so.*.*.*
 %{_datadir}/%{name}
+
+%files libs
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libevas.so.*.*.*
 
 %files devel
 %defattr(644,root,root,755)

@@ -1,4 +1,5 @@
 #
+# Conditional build:
 %bcond_without	mmx		# without MMX and MMX2
 %bcond_without	sse		# without SSE
 %bcond_without	altivec		# without altivec
@@ -149,8 +150,8 @@ done
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post libs	-p /sbin/ldconfig
-%postun libs	-p /sbin/ldconfig
+%post	libs -p /sbin/ldconfig
+%postun	libs -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)

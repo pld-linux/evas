@@ -105,11 +105,12 @@ Statyczna biblioteka Evas.
 %configure \
 	--enable-software-x11 	\
 	--disable-software-xcb	\
-	--enable-direct-fb	\
+	--enable-directfb	\
 	--enable-fb		\
 	--enable-buffer		\
 	--disable-software-qtopia \
 	--enable-gl-x11		\
+	--enable-xrender-x11	\
 	--enable-image-loader-png	\
 	--enable-image-loader-jpeg	\
 	--enable-image-loader-eet	\
@@ -130,7 +131,8 @@ Statyczna biblioteka Evas.
 %else
 	--disable-cpu-altivec	\
 %endif
-	--enable-cpu-c
+	--enable-cpu-c		\
+	--disable-valgrind
 
 %{__make}
 

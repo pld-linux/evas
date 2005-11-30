@@ -3,6 +3,7 @@
 %bcond_without	mmx		# without MMX and MMX2
 %bcond_without	sse		# without SSE
 %bcond_without	altivec		# without altivec
+%bcond_without	static_libs	# don't build static library
 #
 %ifnarch i586 i686 athlon
 %undefine	with_mmx
@@ -17,12 +18,12 @@
 Summary:	Multi-platform Canvas Library
 Summary(pl):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
-Version:	0.9.9.020
+Version:	0.9.9.021
 Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	http://enlightenment.freedesktop.org/files/%{name}-%{version}.tar.gz
-# Source0-md5:	8dce18134e2ca1922bab69387741f4e7
+# Source0-md5:	499e223429b51daeb7d58da21617daba
 Patch0:		%{name}-missing_m4.patch
 URL:		http://enlightenment.org/Libraries/Evas/
 BuildRequires:	DirectFB-devel
@@ -103,6 +104,7 @@ Statyczna biblioteka Evas.
 %{__autoheader}
 %{__automake}
 %configure \
+	%{!?with_static_libs:--disable-static} \
 	--enable-software-x11 	\
 	--disable-software-xcb	\
 	--enable-directfb	\
@@ -173,6 +175,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/evas.pc
 %{_includedir}/Evas*
 
+%if %{with static_libs}
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libevas.a
+%endif

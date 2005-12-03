@@ -24,7 +24,7 @@ License:	BSD
 Group:		Libraries
 Source0:	http://enlightenment.freedesktop.org/files/%{name}-%{version}.tar.gz
 # Source0-md5:	5b4f791ee7085012e04ec3031d634c6c
-Patch0:		%{name}-missing_m4.patch
+#Patch0:		%{name}-missing_m4.patch
 URL:		http://enlightenment.org/Libraries/Evas/
 BuildRequires:	DirectFB-devel
 BuildRequires:	OpenGL-devel
@@ -40,6 +40,8 @@ BuildRequires:	pkgconfig
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	fonts-TTF-bitstream-vera
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%undefine	__cxx
 
 %description
 Evas is a clean display canvas API for several target display systems
@@ -95,14 +97,14 @@ Statyczna biblioteka Evas.
 
 %prep
 %setup -q
-%patch0 -p1
+#%%patch0 -p1
 
 %build
-%{__libtoolize}
-%{__aclocal}
-%{__autoconf}
-%{__autoheader}
-%{__automake}
+#%%{__libtoolize}
+#%%{__aclocal}
+#%%{__autoconf}
+#%%{__autoheader}
+#%%{__automake}
 %configure \
 	%{!?with_static_libs:--disable-static} \
 	--enable-software-x11 	\

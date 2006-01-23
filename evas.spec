@@ -3,6 +3,7 @@
 %bcond_without	mmx		# without MMX and MMX2
 %bcond_without	sse		# without SSE
 %bcond_without	altivec		# without altivec
+%bcond_without	directfb	# build without DirectFB support
 %bcond_without	static_libs	# don't build static library
 #
 %ifnarch i586 i686 athlon %{x8664}
@@ -26,7 +27,7 @@ Source0:	http://enlightenment.freedesktop.org/files/%{name}-%{version}.tar.gz
 # Source0-md5:	ca5528c8894d49cbdf77873f5974c0e8
 #Patch0:		%{name}-missing_m4.patch
 URL:		http://enlightenment.org/Libraries/Evas/
-BuildRequires:	DirectFB-devel
+%{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -109,7 +110,7 @@ Statyczna biblioteka Evas.
 	%{!?with_static_libs:--disable-static} \
 	--enable-software-x11 	\
 	--disable-software-xcb	\
-	--enable-directfb	\
+	--%{?with_directfb:en}%{!?with_directfb:dis}able-directfb	\
 	--enable-fb		\
 	--enable-buffer		\
 	--disable-software-qtopia \

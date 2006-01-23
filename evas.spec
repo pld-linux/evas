@@ -70,7 +70,7 @@ Summary:	Evas header files
 Summary(pl):	Pliki nag³ówkowe Evas
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	DirectFB-devel
+%{?with_directfb:Requires:	DirectFB-devel}
 Requires:	OpenGL-devel
 Requires:	edb-devel
 Requires:	eet-devel

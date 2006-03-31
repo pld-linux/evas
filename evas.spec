@@ -19,12 +19,12 @@
 Summary:	Multi-platform Canvas Library
 Summary(pl):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
-Version:	0.9.9.025
+Version:	0.9.9.026
 Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	http://enlightenment.freedesktop.org/files/%{name}-%{version}.tar.gz
-# Source0-md5:	fca89cd229c41827fd437aab7380ca34
+# Source0-md5:	b2285236b8dff678a0076de2baa39095
 URL:		http://enlightenment.org/Libraries/Evas/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel

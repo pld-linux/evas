@@ -19,12 +19,12 @@
 Summary:	Multi-platform Canvas Library
 Summary(pl):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
-Version:	0.9.9.030
+Version:	0.9.9.031
 Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	http://enlightenment.freedesktop.org/files/%{name}-%{version}.tar.gz
-# Source0-md5:	59b1e57962c5d3ffc9e3168fbf8c66e7
+# Source0-md5:	61c1e6ec5ce8ec5f9d9c6f22d4f8d8fa
 URL:		http://enlightenment.org/Libraries/Evas/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
@@ -35,6 +35,7 @@ BuildRequires:	eet-devel
 BuildRequires:	freetype-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
+BuildRequires:	libtiff-devel
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 Requires:	%{name}-libs = %{version}-%{release}
@@ -94,6 +95,170 @@ Static Evas library.
 
 %description static -l pl
 Statyczna biblioteka Evas.
+
+##### MODULES #####
+# engines:
+%package engine-buffer
+Summary:	Buffer rendering engine module for Evas
+Group:		X11/Libraries
+Requires:	%{name}-engine-software-generic = %{version}-%{release}
+
+%description engine-buffer
+Memory Buffer rendering engine module for Evas.
+
+%package engine-directfb
+Summary:	Directfb rendering engine module for Evas
+Group:		X11/Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+
+%description engine-directfb
+Directfb rendering engine module for Evas.
+
+%package engine-fb
+Summary:	Framebuffer rendering engine module for Evas
+Group:		X11/Libraries
+Requires:	%{name}-engine-software-generic = %{version}-%{release}
+
+%description engine-fb
+Framebuffer rendering engine module for Evas.
+
+%package engine-gl_x11
+Summary:	OpenGL under X11 rendering engine module for Evas
+Group:		X11/Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+
+%description engine-gl_x11
+OpenGL under X11 rendering engine module for Evas.
+
+%package engine-software_generic
+Summary:	Software rendering common engine module for Evas
+Group:		X11/Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+
+%description engine-software_generic
+Software rendering common engine module for Evas.
+
+%package engine-software_qtopia
+Summary:	Qtopia rendering engine module for Evas
+Group:		X11/Libraries
+Requires:	%{name}-engine-software-generic = %{version}-%{release}
+
+%description engine-software_qtopia
+Qtopia rendering engine module for Evas.
+
+%package engine-software_x11
+Summary:	Software X11 rendering engine module for Evas
+Group:		X11/Libraries
+Requires:	%{name}-engine-software-generic = %{version}-%{release}
+
+%description engine-software_x11
+Software X11 rendering engine module for Evas.
+
+%package engine-software_xcb
+Summary:	Software XCB X11 rendering engine module for Evas
+Group:		X11/Libraries
+Requires:	%{name}-engine-software-generic = %{version}-%{release}
+
+%description engine-software_xcb
+Software XCB X11 rendering engine module for Evas.
+
+%package engine-xrender_x11
+Summary:	XRender rendering engine module for Evas
+Group:		X11/Libraries
+Requires:	%{name}-engine-software-generic = %{version}-%{release}
+
+%description engine-xrender_x11
+XRender rendering engine module for Evas.
+
+# loaders:
+%package loader-edb
+Summary:	EDB Image loader module for Evas
+Group:		X11/Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+
+%description loader-edb
+EDB Image loader module for Evas.
+
+%package loader-eet
+Summary:	EET Image loader module for Evas
+Group:		X11/Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+
+%description loader-eet
+EET Image loader module for Evas.
+
+%package loader-gif
+Summary:	GIF Image loader module for Evas
+Group:		X11/Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+
+%description loader-gif
+GIF Image loader module for Evas.
+
+%package loader-jpeg
+Summary:	JPEG Image loader module for Evas
+Group:		X11/Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+
+%description loader-jpeg
+JPEG Image loader module for Evas.
+
+%package loader-png
+Summary:	PNG Image loader module for Evas
+Group:		X11/Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+
+%description loader-png
+PNG Image loader module for Evas.
+
+%package loader-tiff
+Summary:	TIFF Image loader module for Evas
+Group:		X11/Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+
+%description loader-tiff
+TIFF Image loader module for Evas.
+
+# savers:
+%package saver-edb
+Summary:	EDB Image saver module for Evas
+Group:		X11/Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+
+%description saver-edb
+EDB Image saver module for Evas.
+
+%package saver-eet
+Summary:	EET Image saver module for Evas
+Group:		X11/Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+
+%description saver-eet
+EET Image saver module for Evas.
+
+%package saver-jpeg
+Summary:	JPEG Image saver module for Evas
+Group:		X11/Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+
+%description saver-jpeg
+JPEG Image saver module for Evas.
+
+%package saver-png
+Summary:	PNG Image saver module for Evas
+Group:		X11/Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+
+%description saver-png
+PNG Image saver module for Evas.
+
+%package saver-tiff
+Summary:	TIFF Image saver module for Evas
+Group:		X11/Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+
+%description saver-tiff
+TIFF Image saver module for Evas.
 
 %prep
 %setup -q
@@ -165,9 +330,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/modules
 %dir %{_libdir}/%{name}/modules/*
-%dir %{_libdir}/%{name}/modules/*/*
-%dir %{_libdir}/%{name}/modules/*/*/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/*/*/linux-gnu-*/module.so
 
 %files devel
 %defattr(644,root,root,755)
@@ -182,3 +344,127 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libevas.a
 %endif
+
+%files engine-buffer
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/engines/buffer
+%dir %{_libdir}/%{name}/modules/engines/buffer/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/buffer/linux-gnu-*/module.so
+
+%files engine-directfb
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/engines/directfb
+%dir %{_libdir}/%{name}/modules/engines/directfb/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/directfb/linux-gnu-*/module.so
+
+%files engine-fb
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/engines/fb
+%dir %{_libdir}/%{name}/modules/engines/fb/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/fb/linux-gnu-*/module.so
+
+%files engine-gl_x11
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/engines/gl_x11
+%dir %{_libdir}/%{name}/modules/engines/gl_x11/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/gl_x11/linux-gnu-*/module.so
+
+%files engine-software_generic
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/engines/software_generic
+%dir %{_libdir}/%{name}/modules/engines/software_generic/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_generic/linux-gnu-*/module.so
+
+%if 0
+%files engine-software_qtopia
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/engines/software_qtopia
+%dir %{_libdir}/%{name}/modules/engines/software_qtopia/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_qtopia/linux-gnu-*/module.so
+%endif
+
+%files engine-software_x11
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/engines/software_x11
+%dir %{_libdir}/%{name}/modules/engines/software_x11/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_x11/linux-gnu-*/module.so
+
+%if 0
+%files engine-software_xcb
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/engines/software_xcb
+%dir %{_libdir}/%{name}/modules/engines/software_xcb/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_xcb/linux-gnu-*/module.so
+%endif
+
+%files engine-xrender_x11
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/engines/xrender_x11
+%dir %{_libdir}/%{name}/modules/engines/xrender_x11/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/xrender_x11/linux-gnu-*/module.so
+
+%files loader-edb
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/loaders/edb
+%dir %{_libdir}/%{name}/modules/loaders/edb/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/edb/linux-gnu-*/module.so
+
+%files loader-eet
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/loaders/eet
+%dir %{_libdir}/%{name}/modules/loaders/eet/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/eet/linux-gnu-*/module.so
+
+%files loader-gif
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/loaders/gif
+%dir %{_libdir}/%{name}/modules/loaders/gif/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/gif/linux-gnu-*/module.so
+
+%files loader-jpeg
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/loaders/jpeg
+%dir %{_libdir}/%{name}/modules/loaders/jpeg/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/jpeg/linux-gnu-*/module.so
+
+%files loader-png
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/loaders/png
+%dir %{_libdir}/%{name}/modules/loaders/png/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/png/linux-gnu-*/module.so
+
+%files loader-tiff
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/loaders/tiff
+%dir %{_libdir}/%{name}/modules/loaders/tiff/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/tiff/linux-gnu-*/module.so
+
+%files saver-edb
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/savers/edb
+%dir %{_libdir}/%{name}/modules/savers/edb/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/savers/edb/linux-gnu-*/module.so
+
+%files saver-eet
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/savers/eet
+%dir %{_libdir}/%{name}/modules/savers/eet/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/savers/eet/linux-gnu-*/module.so
+
+%files saver-jpeg
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/savers/jpeg
+%dir %{_libdir}/%{name}/modules/savers/jpeg/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/savers/jpeg/linux-gnu-*/module.so
+
+%files saver-png
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/savers/png
+%dir %{_libdir}/%{name}/modules/savers/png/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/savers/png/linux-gnu-*/module.so
+
+%files saver-tiff
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/savers/tiff
+%dir %{_libdir}/%{name}/modules/savers/tiff/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/savers/tiff/linux-gnu-*/module.so

@@ -101,7 +101,7 @@ Statyczna biblioteka Evas.
 %package engine-buffer
 Summary:	Buffer rendering engine module for Evas
 Group:		X11/Libraries
-Requires:	%{name}-engine-software-generic = %{version}-%{release}
+Requires:	%{name}-engine-software_generic = %{version}-%{release}
 
 %description engine-buffer
 Memory Buffer rendering engine module for Evas.
@@ -117,7 +117,7 @@ Directfb rendering engine module for Evas.
 %package engine-fb
 Summary:	Framebuffer rendering engine module for Evas
 Group:		X11/Libraries
-Requires:	%{name}-engine-software-generic = %{version}-%{release}
+Requires:	%{name}-engine-software_generic = %{version}-%{release}
 
 %description engine-fb
 Framebuffer rendering engine module for Evas.
@@ -141,7 +141,7 @@ Software rendering common engine module for Evas.
 %package engine-software_qtopia
 Summary:	Qtopia rendering engine module for Evas
 Group:		X11/Libraries
-Requires:	%{name}-engine-software-generic = %{version}-%{release}
+Requires:	%{name}-engine-software_generic = %{version}-%{release}
 
 %description engine-software_qtopia
 Qtopia rendering engine module for Evas.
@@ -149,7 +149,7 @@ Qtopia rendering engine module for Evas.
 %package engine-software_x11
 Summary:	Software X11 rendering engine module for Evas
 Group:		X11/Libraries
-Requires:	%{name}-engine-software-generic = %{version}-%{release}
+Requires:	%{name}-engine-software_generic = %{version}-%{release}
 
 %description engine-software_x11
 Software X11 rendering engine module for Evas.
@@ -157,7 +157,7 @@ Software X11 rendering engine module for Evas.
 %package engine-software_xcb
 Summary:	Software XCB X11 rendering engine module for Evas
 Group:		X11/Libraries
-Requires:	%{name}-engine-software-generic = %{version}-%{release}
+Requires:	%{name}-engine-software_generic = %{version}-%{release}
 
 %description engine-software_xcb
 Software XCB X11 rendering engine module for Evas.
@@ -165,7 +165,7 @@ Software XCB X11 rendering engine module for Evas.
 %package engine-xrender_x11
 Summary:	XRender rendering engine module for Evas
 Group:		X11/Libraries
-Requires:	%{name}-engine-software-generic = %{version}-%{release}
+Requires:	%{name}-engine-software_generic = %{version}-%{release}
 
 %description engine-xrender_x11
 XRender rendering engine module for Evas.

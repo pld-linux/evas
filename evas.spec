@@ -33,7 +33,7 @@ BuildRequires:	automake
 BuildRequires:	edb-devel
 BuildRequires:	eet-devel
 BuildRequires:	freetype-devel
-BuildRequires:	libgif-devel
+BuildRequires:	giflib-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel

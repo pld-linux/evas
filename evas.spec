@@ -418,7 +418,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-rm $RPM_BUILD_ROOT%{_libdir}/%{name}/modules/*/*/*/module.{a,la}
+rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/modules/*/*/*/module.{a,la}
 
 %clean
 rm -rf $RPM_BUILD_ROOT

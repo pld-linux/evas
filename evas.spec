@@ -19,12 +19,12 @@
 Summary:	Multi-platform Canvas Library
 Summary(pl):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
-Version:	0.9.9.032
+Version:	0.9.9.036
 Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	http://enlightenment.freedesktop.org/files/%{name}-%{version}.tar.gz
-# Source0-md5:	f7cedd3e75290bc8a8220b8081a14018
+# Source0-md5:	7119821b7604f81c71245d431a79eeaf
 URL:		http://enlightenment.org/Libraries/Evas/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
@@ -36,11 +36,10 @@ BuildRequires:	freetype-devel
 BuildRequires:	giflib-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
+BuildRequires:	librsvg-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
-Requires:	%{name}-libs = %{version}-%{release}
-Requires:	fonts-TTF-bitstream-vera
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %undefine	__cxx
@@ -70,7 +69,7 @@ Biblioteka evas.
 Summary:	Evas header files
 Summary(pl):	Pliki nag³ówkowe Evas
 Group:		Development/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 %{?with_directfb:Requires:	DirectFB-devel}
 Requires:	OpenGL-devel
 Requires:	edb-devel
@@ -115,7 +114,7 @@ Modu³ silnika renderuj±cego do bufora dla Evas.
 Summary:	Directfb rendering engine module for Evas
 Summary(pl):	Modu³ silnika renderuj±cego na Directfb dla Evas
 Group:		X11/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 
 %description engine-directfb
 Directfb rendering engine module for Evas.
@@ -139,7 +138,7 @@ Modu³ silnika renderuj±cego na framebuffer dla Evas.
 Summary:	OpenGL under X11 rendering engine module for Evas
 Summary(pl):	Modu³ silnika renderuj±cego na OpenGL pod X11 dla Evas
 Group:		X11/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 
 %description engine-gl_x11
 OpenGL under X11 rendering engine module for Evas.
@@ -151,7 +150,7 @@ Modu³ silnika renderuj±cego na OpenGL pod X11 dla Evas.
 Summary:	Software rendering common engine module for Evas
 Summary(pl):	Modu³ wspólnego programowego silnika renderuj±cego dla Evas
 Group:		X11/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 
 %description engine-software_generic
 Software rendering common engine module for Evas.
@@ -212,7 +211,7 @@ Modu³ silnika renderuj±cego XRender dla Evas.
 Summary:	EDB Image loader module for Evas
 Summary(pl):	Modu³ wczytywania obrazów EDB dla Evas
 Group:		X11/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 
 %description loader-edb
 EDB Image loader module for Evas.
@@ -224,7 +223,7 @@ Modu³ wczytywania obrazów EDB dla Evas.
 Summary:	EET Image loader module for Evas
 Summary(pl):	Modu³ wczytywania obrazów EET dla Evas
 Group:		X11/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 
 %description loader-eet
 EET Image loader module for Evas.
@@ -236,7 +235,7 @@ Modu³ wczytywania obrazów EET dla Evas.
 Summary:	GIF Image loader module for Evas
 Summary(pl):	Modu³ wczytywania obrazów GIF dla Evas
 Group:		X11/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 
 %description loader-gif
 GIF Image loader module for Evas.
@@ -248,7 +247,7 @@ Modu³ wczytywania obrazów GIF dla Evas.
 Summary:	JPEG Image loader module for Evas
 Summary(pl):	Modu³ wczytywania obrazów JPEG dla Evas
 Group:		X11/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 
 %description loader-jpeg
 JPEG Image loader module for Evas.
@@ -260,7 +259,7 @@ Modu³ wczytywania obrazów JPEG dla Evas.
 Summary:	PNG Image loader module for Evas
 Summary(pl):	Modu³ wczytywania obrazów PNG dla Evas
 Group:		X11/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 
 %description loader-png
 PNG Image loader module for Evas.
@@ -268,11 +267,23 @@ PNG Image loader module for Evas.
 %description loader-png -l pl
 Modu³ wczytywania obrazów PNG dla Evas.
 
+%package loader-svg
+Summary:	SVG Image loader module for Evas
+Summary(pl):	Modu³ wczytywania obrazów SVG dla Evas
+Group:		X11/Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description loader-svg
+SVG Image loader module for Evas.
+
+%description loader-svg -l pl
+Modu³ wczytywania obrazów SVG dla Evas.
+
 %package loader-tiff
 Summary:	TIFF Image loader module for Evas
 Summary(pl):	Modu³ wczytywania obrazów TIFF dla Evas
 Group:		X11/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 
 %description loader-tiff
 TIFF Image loader module for Evas.
@@ -280,12 +291,24 @@ TIFF Image loader module for Evas.
 %description loader-tiff -l pl
 Modu³ wczytywania obrazów TIFF dla Evas.
 
+%package loader-xpm
+Summary:	XPM Image loader module for Evas
+Summary(pl):	Modu³ wczytywania obrazów XPM dla Evas
+Group:		X11/Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description loader-xpm
+XPM Image loader module for Evas.
+
+%description loader-xpm -l pl
+Modu³ wczytywania obrazów XPM dla Evas.
+
 # savers:
 %package saver-edb
 Summary:	EDB Image saver module for Evas
 Summary(pl):	Modu³ zapisywania obrazów EDB dla Evas
 Group:		X11/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 
 %description saver-edb
 EDB Image saver module for Evas.
@@ -297,7 +320,7 @@ Modu³ zapisywania obrazów EDB dla Evas.
 Summary:	EET Image saver module for Evas
 Summary(pl):	Modu³ zapisywania obrazów EET dla Evas
 Group:		X11/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 
 %description saver-eet
 EET Image saver module for Evas.
@@ -309,7 +332,7 @@ Modu³ zapisywania obrazów EET dla Evas.
 Summary:	JPEG Image saver module for Evas
 Summary(pl):	Modu³ zapisywania obrazów JPEG dla Evas
 Group:		X11/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 
 %description saver-jpeg
 JPEG Image saver module for Evas.
@@ -321,7 +344,7 @@ Modu³ zapisywania obrazów JPEG dla Evas.
 Summary:	PNG Image saver module for Evas
 Summary(pl):	Modu³ zapisywania obrazów PNG dla Evas
 Group:		X11/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 
 %description saver-png
 PNG Image saver module for Evas.
@@ -333,7 +356,7 @@ Modu³ zapisywania obrazów PNG dla Evas.
 Summary:	TIFF Image saver module for Evas
 Summary(pl):	Modu³ zapisywania obrazów TIFF dla Evas
 Group:		X11/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 
 %description saver-tiff
 TIFF Image saver module for Evas.
@@ -345,6 +368,11 @@ Modu³ zapisywania obrazów TIFF dla Evas.
 %setup -q
 
 %build
+%{__libtoolize}
+%{__aclocal} -I m4
+%{__autoconf}
+%{__autoheader}
+%{__automake}
 %configure \
 	%{!?with_static_libs:--disable-static} \
 	--enable-software-x11 	\
@@ -355,11 +383,15 @@ Modu³ zapisywania obrazów TIFF dla Evas.
 	--disable-software-qtopia \
 	--enable-gl-x11		\
 	--enable-xrender-x11	\
-	--enable-image-loader-png	\
-	--enable-image-loader-jpeg	\
-	--enable-image-loader-eet	\
 	--enable-font-loader-eet	\
 	--enable-image-loader-edb	\
+	--enable-image-loader-eet	\
+	--enable-image-loader-gif	\
+	--enable-image-loader-jpeg	\
+	--enable-image-loader-png	\
+	--enable-image-loader-svg	\
+	--enable-image-loader-tiff	\
+	--enable-image-loader-xpm	\
 %if %{with mmx}
 	--enable-cpu-mmx	\
 %else
@@ -386,27 +418,17 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-cd $RPM_BUILD_ROOT%{_datadir}/%{name}
-VERA=$(ls Vera*.ttf)
-for FONT in $VERA; do
-	rm -f $FONT
-	ln -s %{_fontsdir}/TTF/$FONT .
-done
+rm $RPM_BUILD_ROOT%{_libdir}/%{name}/modules/*/*/*/module.{a,la}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	libs -p /sbin/ldconfig
-%postun	libs -p /sbin/ldconfig
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS COPYING COPYING-PLAIN INSTALL README
-%attr(755,root,root) %{_bindir}/evas_*
-%{_datadir}/%{name}
-
-%files libs
-%defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libevas.so.*.*.*
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/modules
@@ -514,11 +536,23 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/modules/loaders/png/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/loaders/png/linux-gnu-*/module.so
 
+%files loader-svg
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/loaders/svg
+%dir %{_libdir}/%{name}/modules/loaders/svg/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/svg/linux-gnu-*/module.so
+
 %files loader-tiff
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/loaders/tiff
 %dir %{_libdir}/%{name}/modules/loaders/tiff/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/loaders/tiff/linux-gnu-*/module.so
+
+%files loader-xpm
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/loaders/xpm
+%dir %{_libdir}/%{name}/modules/loaders/xpm/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/xpm/linux-gnu-*/module.so
 
 %files saver-edb
 %defattr(644,root,root,755)

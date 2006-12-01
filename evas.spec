@@ -32,7 +32,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	edb-devel
 BuildRequires:	eet-devel
-BuildRequires:	freetype-devel
+BuildRequires:	freetype-devel >= 2.2
 BuildRequires:	giflib-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
@@ -40,6 +40,7 @@ BuildRequires:	librsvg-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
+Requires:	freetype >= 2.2
 Obsoletes:	evas-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 

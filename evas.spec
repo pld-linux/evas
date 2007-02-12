@@ -17,7 +17,7 @@
 %endif
 #
 Summary:	Multi-platform Canvas Library
-Summary(pl):	Wieloplatformowa biblioteka do rysowania
+Summary(pl.UTF-8):   Wieloplatformowa biblioteka do rysowania
 Name:		evas
 Version:	0.9.9.036
 Release:	2
@@ -51,25 +51,25 @@ Evas is a clean display canvas API for several target display systems
 that can draw anti-aliased text, smooth super and sub-sampled scaled
 images, alpha-blend objects much and more.
 
-%description -l pl
-Evas to czyste API "p≥Ûtna obrazu" dla rÛønych systemÛw wy∂wietlania,
-bÍd±ce w stanie rysowaÊ tekst z antyaliasingiem, wyg≥adzane, skalowane
+%description -l pl.UTF-8
+Evas to czyste API "p≈Ç√≥tna obrazu" dla r√≥≈ºnych system√≥w wy≈õwietlania,
+bƒôdƒÖce w stanie rysowaƒá tekst z antyaliasingiem, wyg≈Çadzane, skalowane
 obrazy, obiekty z alpha-blendingiem i inne elementy.
 
 %package libs
 Summary:	Evas library
-Summary(pl):	Biblioteka evas
+Summary(pl.UTF-8):   Biblioteka evas
 Group:		X11/Libraries
 
 %description libs
 Evas library.
 
-%description libs -l pl
+%description libs -l pl.UTF-8
 Biblioteka evas.
 
 %package devel
 Summary:	Evas header files
-Summary(pl):	Pliki nag≥Ûwkowe Evas
+Summary(pl.UTF-8):   Pliki nag≈Ç√≥wkowe Evas
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 %{?with_directfb:Requires:	DirectFB-devel}
@@ -83,288 +83,288 @@ Requires:	libpng-devel
 %description devel
 Header files for Evas.
 
-%description devel -l pl
-Pliki nag≥Ûwkowe Evas.
+%description devel -l pl.UTF-8
+Pliki nag≈Ç√≥wkowe Evas.
 
 %package static
 Summary:	Static Evas library
-Summary(pl):	Statyczna biblioteka Evas
+Summary(pl.UTF-8):   Statyczna biblioteka Evas
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Static Evas library.
 
-%description static -l pl
+%description static -l pl.UTF-8
 Statyczna biblioteka Evas.
 
 ##### MODULES #####
 # engines:
 %package engine-buffer
 Summary:	Buffer rendering engine module for Evas
-Summary(pl):	Modu≥ silnika renderuj±cego do bufora dla Evas
+Summary(pl.UTF-8):   Modu≈Ç silnika renderujƒÖcego do bufora dla Evas
 Group:		X11/Libraries
 Requires:	%{name}-engine-software_generic = %{version}-%{release}
 
 %description engine-buffer
 Memory Buffer rendering engine module for Evas.
 
-%description engine-buffer -l pl
-Modu≥ silnika renderuj±cego do bufora dla Evas.
+%description engine-buffer -l pl.UTF-8
+Modu≈Ç silnika renderujƒÖcego do bufora dla Evas.
 
 %package engine-directfb
 Summary:	Directfb rendering engine module for Evas
-Summary(pl):	Modu≥ silnika renderuj±cego na Directfb dla Evas
+Summary(pl.UTF-8):   Modu≈Ç silnika renderujƒÖcego na Directfb dla Evas
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description engine-directfb
 Directfb rendering engine module for Evas.
 
-%description engine-directfb -l pl
-Modu≥ silnika renderuj±cego na Directfb dla Evas.
+%description engine-directfb -l pl.UTF-8
+Modu≈Ç silnika renderujƒÖcego na Directfb dla Evas.
 
 %package engine-fb
 Summary:	Framebuffer rendering engine module for Evas
-Summary(pl):	Modu≥ silnika renderuj±cego na framebuffer dla Evas
+Summary(pl.UTF-8):   Modu≈Ç silnika renderujƒÖcego na framebuffer dla Evas
 Group:		X11/Libraries
 Requires:	%{name}-engine-software_generic = %{version}-%{release}
 
 %description engine-fb
 Framebuffer rendering engine module for Evas.
 
-%description engine-fb -l pl
-Modu≥ silnika renderuj±cego na framebuffer dla Evas.
+%description engine-fb -l pl.UTF-8
+Modu≈Ç silnika renderujƒÖcego na framebuffer dla Evas.
 
 %package engine-gl_x11
 Summary:	OpenGL under X11 rendering engine module for Evas
-Summary(pl):	Modu≥ silnika renderuj±cego na OpenGL pod X11 dla Evas
+Summary(pl.UTF-8):   Modu≈Ç silnika renderujƒÖcego na OpenGL pod X11 dla Evas
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description engine-gl_x11
 OpenGL under X11 rendering engine module for Evas.
 
-%description engine-gl_x11 -l pl
-Modu≥ silnika renderuj±cego na OpenGL pod X11 dla Evas.
+%description engine-gl_x11 -l pl.UTF-8
+Modu≈Ç silnika renderujƒÖcego na OpenGL pod X11 dla Evas.
 
 %package engine-software_generic
 Summary:	Software rendering common engine module for Evas
-Summary(pl):	Modu≥ wspÛlnego programowego silnika renderuj±cego dla Evas
+Summary(pl.UTF-8):   Modu≈Ç wsp√≥lnego programowego silnika renderujƒÖcego dla Evas
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description engine-software_generic
 Software rendering common engine module for Evas.
 
-%description engine-software_generic -l pl
-Modu≥ wspÛlnego programowego silnika renderuj±cego dla Evas.
+%description engine-software_generic -l pl.UTF-8
+Modu≈Ç wsp√≥lnego programowego silnika renderujƒÖcego dla Evas.
 
 %package engine-software_qtopia
 Summary:	Qtopia rendering engine module for Evas
-Summary(pl):	Modu≥ silnika renderuj±cego Qtopia dla Evas
+Summary(pl.UTF-8):   Modu≈Ç silnika renderujƒÖcego Qtopia dla Evas
 Group:		X11/Libraries
 Requires:	%{name}-engine-software_generic = %{version}-%{release}
 
 %description engine-software_qtopia
 Qtopia rendering engine module for Evas.
 
-%description engine-software_qtopia -l pl
-Modu≥ silnika renderuj±cego Qtopia dla Evas.
+%description engine-software_qtopia -l pl.UTF-8
+Modu≈Ç silnika renderujƒÖcego Qtopia dla Evas.
 
 %package engine-software_x11
 Summary:	Software X11 rendering engine module for Evas
-Summary(pl):	Modu≥ programowego silnika renderuj±cego X11 dla Evas
+Summary(pl.UTF-8):   Modu≈Ç programowego silnika renderujƒÖcego X11 dla Evas
 Group:		X11/Libraries
 Requires:	%{name}-engine-software_generic = %{version}-%{release}
 
 %description engine-software_x11
 Software X11 rendering engine module for Evas.
 
-%description engine-software_x11 -l pl
-Modu≥ programowego silnika renderuj±cego X11 dla Evas.
+%description engine-software_x11 -l pl.UTF-8
+Modu≈Ç programowego silnika renderujƒÖcego X11 dla Evas.
 
 %package engine-software_xcb
 Summary:	Software XCB X11 rendering engine module for Evas
-Summary(pl):	Modu≥ programowego silnika renderuj±cego XCB X11 dla Evas
+Summary(pl.UTF-8):   Modu≈Ç programowego silnika renderujƒÖcego XCB X11 dla Evas
 Group:		X11/Libraries
 Requires:	%{name}-engine-software_generic = %{version}-%{release}
 
 %description engine-software_xcb
 Software XCB X11 rendering engine module for Evas.
 
-%description engine-software_xcb -l pl
-Modu≥ programowego silnika renderuj±cego XCB X11 dla Evas.
+%description engine-software_xcb -l pl.UTF-8
+Modu≈Ç programowego silnika renderujƒÖcego XCB X11 dla Evas.
 
 %package engine-xrender_x11
 Summary:	XRender rendering engine module for Evas
-Summary(pl):	Modu≥ silnika renderuj±cego XRender dla Evas
+Summary(pl.UTF-8):   Modu≈Ç silnika renderujƒÖcego XRender dla Evas
 Group:		X11/Libraries
 Requires:	%{name}-engine-software_generic = %{version}-%{release}
 
 %description engine-xrender_x11
 XRender rendering engine module for Evas.
 
-%description engine-xrender_x11 -l pl
-Modu≥ silnika renderuj±cego XRender dla Evas.
+%description engine-xrender_x11 -l pl.UTF-8
+Modu≈Ç silnika renderujƒÖcego XRender dla Evas.
 
 # loaders:
 %package loader-edb
 Summary:	EDB Image loader module for Evas
-Summary(pl):	Modu≥ wczytywania obrazÛw EDB dla Evas
+Summary(pl.UTF-8):   Modu≈Ç wczytywania obraz√≥w EDB dla Evas
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description loader-edb
 EDB Image loader module for Evas.
 
-%description loader-edb -l pl
-Modu≥ wczytywania obrazÛw EDB dla Evas.
+%description loader-edb -l pl.UTF-8
+Modu≈Ç wczytywania obraz√≥w EDB dla Evas.
 
 %package loader-eet
 Summary:	EET Image loader module for Evas
-Summary(pl):	Modu≥ wczytywania obrazÛw EET dla Evas
+Summary(pl.UTF-8):   Modu≈Ç wczytywania obraz√≥w EET dla Evas
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description loader-eet
 EET Image loader module for Evas.
 
-%description loader-eet -l pl
-Modu≥ wczytywania obrazÛw EET dla Evas.
+%description loader-eet -l pl.UTF-8
+Modu≈Ç wczytywania obraz√≥w EET dla Evas.
 
 %package loader-gif
 Summary:	GIF Image loader module for Evas
-Summary(pl):	Modu≥ wczytywania obrazÛw GIF dla Evas
+Summary(pl.UTF-8):   Modu≈Ç wczytywania obraz√≥w GIF dla Evas
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description loader-gif
 GIF Image loader module for Evas.
 
-%description loader-gif -l pl
-Modu≥ wczytywania obrazÛw GIF dla Evas.
+%description loader-gif -l pl.UTF-8
+Modu≈Ç wczytywania obraz√≥w GIF dla Evas.
 
 %package loader-jpeg
 Summary:	JPEG Image loader module for Evas
-Summary(pl):	Modu≥ wczytywania obrazÛw JPEG dla Evas
+Summary(pl.UTF-8):   Modu≈Ç wczytywania obraz√≥w JPEG dla Evas
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description loader-jpeg
 JPEG Image loader module for Evas.
 
-%description loader-jpeg -l pl
-Modu≥ wczytywania obrazÛw JPEG dla Evas.
+%description loader-jpeg -l pl.UTF-8
+Modu≈Ç wczytywania obraz√≥w JPEG dla Evas.
 
 %package loader-png
 Summary:	PNG Image loader module for Evas
-Summary(pl):	Modu≥ wczytywania obrazÛw PNG dla Evas
+Summary(pl.UTF-8):   Modu≈Ç wczytywania obraz√≥w PNG dla Evas
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description loader-png
 PNG Image loader module for Evas.
 
-%description loader-png -l pl
-Modu≥ wczytywania obrazÛw PNG dla Evas.
+%description loader-png -l pl.UTF-8
+Modu≈Ç wczytywania obraz√≥w PNG dla Evas.
 
 %package loader-svg
 Summary:	SVG Image loader module for Evas
-Summary(pl):	Modu≥ wczytywania obrazÛw SVG dla Evas
+Summary(pl.UTF-8):   Modu≈Ç wczytywania obraz√≥w SVG dla Evas
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description loader-svg
 SVG Image loader module for Evas.
 
-%description loader-svg -l pl
-Modu≥ wczytywania obrazÛw SVG dla Evas.
+%description loader-svg -l pl.UTF-8
+Modu≈Ç wczytywania obraz√≥w SVG dla Evas.
 
 %package loader-tiff
 Summary:	TIFF Image loader module for Evas
-Summary(pl):	Modu≥ wczytywania obrazÛw TIFF dla Evas
+Summary(pl.UTF-8):   Modu≈Ç wczytywania obraz√≥w TIFF dla Evas
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description loader-tiff
 TIFF Image loader module for Evas.
 
-%description loader-tiff -l pl
-Modu≥ wczytywania obrazÛw TIFF dla Evas.
+%description loader-tiff -l pl.UTF-8
+Modu≈Ç wczytywania obraz√≥w TIFF dla Evas.
 
 %package loader-xpm
 Summary:	XPM Image loader module for Evas
-Summary(pl):	Modu≥ wczytywania obrazÛw XPM dla Evas
+Summary(pl.UTF-8):   Modu≈Ç wczytywania obraz√≥w XPM dla Evas
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description loader-xpm
 XPM Image loader module for Evas.
 
-%description loader-xpm -l pl
-Modu≥ wczytywania obrazÛw XPM dla Evas.
+%description loader-xpm -l pl.UTF-8
+Modu≈Ç wczytywania obraz√≥w XPM dla Evas.
 
 # savers:
 %package saver-edb
 Summary:	EDB Image saver module for Evas
-Summary(pl):	Modu≥ zapisywania obrazÛw EDB dla Evas
+Summary(pl.UTF-8):   Modu≈Ç zapisywania obraz√≥w EDB dla Evas
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description saver-edb
 EDB Image saver module for Evas.
 
-%description saver-edb -l pl
-Modu≥ zapisywania obrazÛw EDB dla Evas.
+%description saver-edb -l pl.UTF-8
+Modu≈Ç zapisywania obraz√≥w EDB dla Evas.
 
 %package saver-eet
 Summary:	EET Image saver module for Evas
-Summary(pl):	Modu≥ zapisywania obrazÛw EET dla Evas
+Summary(pl.UTF-8):   Modu≈Ç zapisywania obraz√≥w EET dla Evas
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description saver-eet
 EET Image saver module for Evas.
 
-%description saver-eet -l pl
-Modu≥ zapisywania obrazÛw EET dla Evas.
+%description saver-eet -l pl.UTF-8
+Modu≈Ç zapisywania obraz√≥w EET dla Evas.
 
 %package saver-jpeg
 Summary:	JPEG Image saver module for Evas
-Summary(pl):	Modu≥ zapisywania obrazÛw JPEG dla Evas
+Summary(pl.UTF-8):   Modu≈Ç zapisywania obraz√≥w JPEG dla Evas
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description saver-jpeg
 JPEG Image saver module for Evas.
 
-%description saver-jpeg -l pl
-Modu≥ zapisywania obrazÛw JPEG dla Evas.
+%description saver-jpeg -l pl.UTF-8
+Modu≈Ç zapisywania obraz√≥w JPEG dla Evas.
 
 %package saver-png
 Summary:	PNG Image saver module for Evas
-Summary(pl):	Modu≥ zapisywania obrazÛw PNG dla Evas
+Summary(pl.UTF-8):   Modu≈Ç zapisywania obraz√≥w PNG dla Evas
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description saver-png
 PNG Image saver module for Evas.
 
-%description saver-png -l pl
-Modu≥ zapisywania obrazÛw PNG dla Evas.
+%description saver-png -l pl.UTF-8
+Modu≈Ç zapisywania obraz√≥w PNG dla Evas.
 
 %package saver-tiff
 Summary:	TIFF Image saver module for Evas
-Summary(pl):	Modu≥ zapisywania obrazÛw TIFF dla Evas
+Summary(pl.UTF-8):   Modu≈Ç zapisywania obraz√≥w TIFF dla Evas
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description saver-tiff
 TIFF Image saver module for Evas.
 
-%description saver-tiff -l pl
-Modu≥ zapisywania obrazÛw TIFF dla Evas.
+%description saver-tiff -l pl.UTF-8
+Modu≈Ç zapisywania obraz√≥w TIFF dla Evas.
 
 %prep
 %setup -q

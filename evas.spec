@@ -6,10 +6,10 @@
 %bcond_without	directfb	# build without DirectFB support
 %bcond_without	static_libs	# don't build static library
 #
-%ifnarch i586 i686 athlon %{x8664}
+%ifnarch i586 i686 pentium3 pentium4 athlon %{x8664}
 %undefine	with_mmx
 %endif
-%ifnarch i686 athlon %{x8664}
+%ifnarch i686 pentium3 pentium4 athlon %{x8664}
 %undefine	with_sse
 %endif
 %ifnarch ppc
@@ -19,27 +19,31 @@
 Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
-Version:	0.9.9.036
-Release:	3
+Version:	0.9.9.038
+Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	http://enlightenment.freedesktop.org/files/%{name}-%{version}.tar.gz
-# Source0-md5:	7119821b7604f81c71245d431a79eeaf
+# Source0-md5:	6eb1b18ed8b17d0db9b9f794b2a73c92
 URL:		http://enlightenment.org/Libraries/Evas/
-%{?with_directfb:BuildRequires:	DirectFB-devel}
-BuildRequires:	OpenGL-devel
-BuildRequires:	autoconf
-BuildRequires:	automake
-BuildRequires:	edb-devel
+%{?with_directfb:BuildRequires:	DirectFB-devel >= 0.9.16}
+BuildRequires:	OpenGL-GLU-devel
+BuildRequires:	autoconf >= 2.59-9
+BuildRequires:	automake >= 1.4
+BuildRequires:	edb-devel >= 1.0.5
 BuildRequires:	eet-devel
+BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 1:2.2
 BuildRequires:	giflib-devel
 BuildRequires:	libjpeg-devel
-BuildRequires:	libpng-devel
-BuildRequires:	librsvg-devel
+BuildRequires:	libpng-devel >= 1.2
+BuildRequires:	librsvg-devel >= 1:2.14.0
 BuildRequires:	libtiff-devel
 BuildRequires:	libtool
+BuildRequires:	libxcb-devel
 BuildRequires:	pkgconfig
+BuildRequires:	xcb-util-devel
+BuildRequires:	xorg-lib-libXext-devel
 Requires:	freetype >= 1:2.2
 Obsoletes:	evas-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -72,13 +76,16 @@ Summary:	Evas header files
 Summary(pl.UTF-8):	Pliki nagłówkowe Evas
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-%{?with_directfb:Requires:	DirectFB-devel}
-Requires:	OpenGL-devel
-Requires:	edb-devel
+Requires:	edb-devel >= 1.0.5
 Requires:	eet-devel
+Requires:	fontconfig-devel
 Requires:	freetype-devel >= 1:2.2
-Requires:	libjpeg-devel
-Requires:	libpng-devel
+# for evas-directfb
+#%{?with_directfb:Requires:	DirectFB-devel >= 0.9.16}
+# for evas-gl_x11, evas-glitz_x11, evas-software_x11, evas-xrender_x11
+#Requires:	xorg-lib-libX11-devel
+# for evas-software_xcb, evas-xrender_xcb
+#Requires:	libxcb-devel
 
 %description devel
 Header files for Evas.
@@ -148,6 +155,18 @@ OpenGL under X11 rendering engine module for Evas.
 %description engine-gl_x11 -l pl.UTF-8
 Moduł silnika renderującego na OpenGL pod X11 dla Evas.
 
+%package engine-glitz_x11
+Summary:	Glitz X11 rendering engine module for Evas
+Summary(pl.UTF-8):	Moduł silnika renderującego na OpenGL pod X11 dla Evas
+Group:		X11/Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description engine-glitz_x11
+Glitz X11 rendering engine module for Evas.
+
+%description engine-glitz_x11 -l pl.UTF-8
+Moduł silnika renderującego Glitz X11 dla Evas.
+
 %package engine-software_generic
 Summary:	Software rendering common engine module for Evas
 Summary(pl.UTF-8):	Moduł wspólnego programowego silnika renderującego dla Evas
@@ -197,16 +216,28 @@ Software XCB X11 rendering engine module for Evas.
 Moduł programowego silnika renderującego XCB X11 dla Evas.
 
 %package engine-xrender_x11
-Summary:	XRender rendering engine module for Evas
-Summary(pl.UTF-8):	Moduł silnika renderującego XRender dla Evas
+Summary:	XRender X11 rendering engine module for Evas
+Summary(pl.UTF-8):	Moduł silnika renderującego XRender X11 dla Evas
 Group:		X11/Libraries
 Requires:	%{name}-engine-software_generic = %{version}-%{release}
 
 %description engine-xrender_x11
-XRender rendering engine module for Evas.
+XRender X11 rendering engine module for Evas.
 
 %description engine-xrender_x11 -l pl.UTF-8
-Moduł silnika renderującego XRender dla Evas.
+Moduł silnika renderującego XRender X11 dla Evas.
+
+%package engine-xrender_xcb
+Summary:	XRender XCB rendering engine module for Evas
+Summary(pl.UTF-8):	Moduł silnika renderującego XCB XRender dla Evas
+Group:		X11/Libraries
+Requires:	%{name}-engine-software_generic = %{version}-%{release}
+
+%description engine-xrender_xcb
+XCB XRender rendering engine module for Evas.
+
+%description engine-xrender_xcb -l pl.UTF-8
+Moduł silnika renderującego XCB XRender dla Evas.
 
 # loaders:
 %package loader-edb
@@ -274,6 +305,7 @@ Summary:	SVG Image loader module for Evas
 Summary(pl.UTF-8):	Moduł wczytywania obrazów SVG dla Evas
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	librsvg >= 1:2.14.0
 
 %description loader-svg
 SVG Image loader module for Evas.
@@ -371,20 +403,22 @@ Moduł zapisywania obrazów TIFF dla Evas.
 
 %build
 %{__libtoolize}
-%{__aclocal} -I m4
+%{__aclocal}
 %{__autoconf}
 %{__autoheader}
 %{__automake}
 %configure \
 	%{!?with_static_libs:--disable-static} \
+	--disable-software-qtopia \
 	--enable-software-x11 	\
-	--disable-software-xcb	\
+	--enable-software-xcb	\
+	--enable-buffer		\
 	--%{?with_directfb:en}%{!?with_directfb:dis}able-directfb	\
 	--enable-fb		\
-	--enable-buffer		\
-	--disable-software-qtopia \
 	--enable-gl-x11		\
+	--enable-glitz-x11	\
 	--enable-xrender-x11	\
+	--enable-xrender-xcb	\
 	--enable-font-loader-eet	\
 	--enable-image-loader-edb	\
 	--enable-image-loader-eet	\
@@ -430,19 +464,24 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS COPYING COPYING-PLAIN INSTALL README
+%doc AUTHORS COPYING COPYING-PLAIN README
 %attr(755,root,root) %{_libdir}/libevas.so.*.*.*
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/modules
-%dir %{_libdir}/%{name}/modules/*
+%dir %{_libdir}/%{name}/modules/engines
+%dir %{_libdir}/%{name}/modules/loaders
+%dir %{_libdir}/%{name}/modules/savers
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/evas-config
 %attr(755,root,root) %{_libdir}/libevas.so
 %{_libdir}/libevas.la
+%{_includedir}/Evas.h
 %{_pkgconfigdir}/evas.pc
-%{_includedir}/Evas*
+# engine private structures
+%{_includedir}/Evas_Engine_*.h
+%{_pkgconfigdir}/evas-*.pc
 
 %if %{with static_libs}
 %files static
@@ -474,6 +513,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/modules/engines/gl_x11/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/gl_x11/linux-gnu-*/module.so
 
+%files engine-glitz_x11
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/engines/glitz_x11
+%dir %{_libdir}/%{name}/modules/engines/glitz_x11/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/glitz_x11/linux-gnu-*/module.so
+
 %files engine-software_generic
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/software_generic
@@ -494,19 +539,23 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/modules/engines/software_x11/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_x11/linux-gnu-*/module.so
 
-%if 0
 %files engine-software_xcb
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/software_xcb
 %dir %{_libdir}/%{name}/modules/engines/software_xcb/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_xcb/linux-gnu-*/module.so
-%endif
 
 %files engine-xrender_x11
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/xrender_x11
 %dir %{_libdir}/%{name}/modules/engines/xrender_x11/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/xrender_x11/linux-gnu-*/module.so
+
+%files engine-xrender_xcb
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/engines/xrender_xcb
+%dir %{_libdir}/%{name}/modules/engines/xrender_xcb/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/xrender_xcb/linux-gnu-*/module.so
 
 %files loader-edb
 %defattr(644,root,root,755)

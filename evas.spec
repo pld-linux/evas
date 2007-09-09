@@ -31,7 +31,7 @@ BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	autoconf >= 2.59-9
 BuildRequires:	automake >= 1.4
 BuildRequires:	edb-devel >= 1.0.5
-BuildRequires:	eet-devel >= %{version}
+BuildRequires:	eet-devel >= 0.9.10.038
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 1:2.2
 BuildRequires:	giflib-devel
@@ -45,7 +45,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	xcb-util-devel
 BuildRequires:	xorg-lib-libXext-devel
 Requires:	freetype >= 1:2.2
-Requires:	eet >= %{version}
+Requires:	eet >= 0.9.10.038
 Obsoletes:	evas-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -67,7 +67,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe Evas
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	edb-devel >= 1.0.5
-Requires:	eet-devel >= %{version}
+Requires:	eet-devel >= 0.9.10.038
 Requires:	fontconfig-devel
 Requires:	freetype-devel >= 1:2.2
 # for evas-directfb

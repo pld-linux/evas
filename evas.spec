@@ -31,7 +31,7 @@ BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	autoconf >= 2.59-9
 BuildRequires:	automake >= 1.4
 BuildRequires:	edb-devel >= 1.0.5
-BuildRequires:	eet-devel
+BuildRequires:	eet-devel >= %{version}
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 1:2.2
 BuildRequires:	giflib-devel
@@ -45,6 +45,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	xcb-util-devel
 BuildRequires:	xorg-lib-libXext-devel
 Requires:	freetype >= 1:2.2
+Requires:	eet >= %{version}
 Obsoletes:	evas-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -60,24 +61,13 @@ Evas to czyste API "płótna obrazu" dla różnych systemów wyświetlania,
 będące w stanie rysować tekst z antyaliasingiem, wygładzane, skalowane
 obrazy, obiekty z alpha-blendingiem i inne elementy.
 
-%package libs
-Summary:	Evas library
-Summary(pl.UTF-8):	Biblioteka evas
-Group:		X11/Libraries
-
-%description libs
-Evas library.
-
-%description libs -l pl.UTF-8
-Biblioteka evas.
-
 %package devel
 Summary:	Evas header files
 Summary(pl.UTF-8):	Pliki nagłówkowe Evas
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	edb-devel >= 1.0.5
-Requires:	eet-devel
+Requires:	eet-devel >= %{version}
 Requires:	fontconfig-devel
 Requires:	freetype-devel >= 1:2.2
 # for evas-directfb

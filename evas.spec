@@ -25,7 +25,7 @@ License:	BSD
 Group:		Libraries
 Source0:	http://enlightenment.freedesktop.org/files/%{name}-%{version}.tar.gz
 # Source0-md5:	6eb1b18ed8b17d0db9b9f794b2a73c92
-URL:		http://enlightenment.org/Libraries/Evas/
+URL:		http://enlightenment.org/p.php?p=about/libs/evas
 %{?with_directfb:BuildRequires:	DirectFB-devel >= 0.9.16}
 BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	autoconf >= 2.59-9

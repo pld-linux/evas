@@ -35,6 +35,7 @@ BuildRequires:	eet-devel >= 0.9.10.038
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 1:2.2
 BuildRequires:	giflib-devel
+BuildRequires:	glitz-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel >= 1.2
 BuildRequires:	librsvg-devel >= 1:2.14.0

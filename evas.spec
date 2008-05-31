@@ -16,6 +16,9 @@
 %undefine	with_altivec
 %endif
 #
+%define		edb_ver 	1.0.5
+%define		eet_ver 	0.9.10.038
+
 Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
@@ -30,8 +33,8 @@ URL:		http://enlightenment.org/p.php?p=about/libs/evas
 BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	autoconf >= 2.59-9
 BuildRequires:	automake >= 1.4
-BuildRequires:	edb-devel >= 1.0.5
-BuildRequires:	eet-devel >= 0.9.10.038
+BuildRequires:	edb-devel >= %{edb_ver}
+BuildRequires:	eet-devel >= %{eet_ver}
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 1:2.2
 BuildRequires:	giflib-devel
@@ -46,7 +49,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	xcb-util-devel
 BuildRequires:	xorg-lib-libXext-devel
 Requires:	freetype >= 1:2.2
-Requires:	eet >= 0.9.10.038
+Requires:	eet >= %{eet_ver}
 Obsoletes:	evas-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -67,8 +70,8 @@ Summary:	Evas header files
 Summary(pl.UTF-8):	Pliki nagłówkowe Evas
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	edb-devel >= 1.0.5
-Requires:	eet-devel >= 0.9.10.038
+Requires:	edb-devel >= %{edb_ver}
+Requires:	eet-devel >= %{eet_ver}
 Requires:	fontconfig-devel
 Requires:	freetype-devel >= 1:2.2
 # for evas-directfb

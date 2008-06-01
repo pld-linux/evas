@@ -6,7 +6,8 @@
 %bcond_without	mmx		# without MMX and MMX2
 %bcond_without	sse		# without SSE
 %bcond_without	altivec		# without altivec
-%bcond_without	directfb	# build without DirectFB support
+%bcond_with	fb		# build without FB support
+%bcond_with	directfb	# build without DirectFB support
 %bcond_without	static_libs	# don't build static library
 #
 %ifnarch i586 i686 pentium3 pentium4 athlon %{x8664}
@@ -424,7 +425,7 @@ rm -f aclocal.m4 ltmain.sh
 	--enable-software-x11 	\
 	--enable-buffer		\
 	--%{?with_directfb:en}%{!?with_directfb:dis}able-directfb	\
-	--enable-fb		\
+	--%{?with_fb:en}%{!?with_fb:dis}able-fb		\
 	--enable-gl-x11		\
 	--enable-glitz-x11	\
 	--enable-xrender-x11	\
@@ -505,17 +506,21 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/modules/engines/buffer/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/buffer/linux-gnu-*/module.so
 
-#%files engine-directfb
-#%defattr(644,root,root,755)
-#%dir %{_libdir}/%{name}/modules/engines/directfb
-#%dir %{_libdir}/%{name}/modules/engines/directfb/linux-gnu-*
-#%attr(755,root,root) %{_libdir}/%{name}/modules/engines/directfb/linux-gnu-*/module.so
+%if %{with directfb}
+%files engine-directfb
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/engines/directfb
+%dir %{_libdir}/%{name}/modules/engines/directfb/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/directfb/linux-gnu-*/module.so
+%endif
 
+%if %{with fb}
 %files engine-fb
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/fb
 %dir %{_libdir}/%{name}/modules/engines/fb/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/fb/linux-gnu-*/module.so
+%endif
 
 %files engine-gl_x11
 %defattr(644,root,root,755)

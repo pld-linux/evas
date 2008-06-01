@@ -1,6 +1,8 @@
 #
 # TODO : 
 # --enable-software-xcb	\ - this not build
+# - with fb build fail on ppc (no asm/page.h llh)
+# - with directfb plugin is not builded - work in progres?
 #
 # Conditional build:
 %bcond_without	mmx		# without MMX and MMX2

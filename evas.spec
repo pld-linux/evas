@@ -1,4 +1,7 @@
 #
+# TODO : 
+# --enable-software-xcb	\ - this not build
+#
 # Conditional build:
 %bcond_without	mmx		# without MMX and MMX2
 %bcond_without	sse		# without SSE
@@ -16,18 +19,18 @@
 %undefine	with_altivec
 %endif
 #
-%define		edb_ver 	1.0.5
-%define		eet_ver 	0.9.10.038
+%define		edb_ver 	1.0.5.042
+%define		eet_ver 	1.0.1
 
 Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
-Version:	0.9.9.038
+Version:	0.9.9.043
 Release:	1
 License:	BSD
 Group:		Libraries
-Source0:	http://enlightenment.freedesktop.org/files/%{name}-%{version}.tar.gz
-# Source0-md5:	6eb1b18ed8b17d0db9b9f794b2a73c92
+Source0:	http://download.enlightenment.org/snapshots/2008-05-19/%{name}-%{version}.tar.bz2
+# Source0-md5:	31716723798107535dfaf4cf84017685
 URL:		http://enlightenment.org/p.php?p=about/libs/evas
 %{?with_directfb:BuildRequires:	DirectFB-devel >= 0.9.16}
 BuildRequires:	OpenGL-GLU-devel
@@ -282,6 +285,18 @@ JPEG Image loader module for Evas.
 %description loader-jpeg -l pl.UTF-8
 Moduł wczytywania obrazów JPEG dla Evas.
 
+%package loader-pmaps
+Summary:	PMAPS Image loader module for Evas
+Summary(pl.UTF-8):	Moduł wczytywania obrazów PMAPS dla Evas
+Group:		X11/Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description loader-pmaps
+PMAPS Image loader module for Evas.
+
+%description loader-pmaps -l pl.UTF-8
+Moduł wczytywania obrazów PMAPS dla Evas.
+
 %package loader-png
 Summary:	PNG Image loader module for Evas
 Summary(pl.UTF-8):	Moduł wczytywania obrazów PNG dla Evas
@@ -396,8 +411,10 @@ Moduł zapisywania obrazów TIFF dla Evas.
 %setup -q
 
 %build
+rm -rf autom4te.cache
+rm -f aclocal.m4 ltmain.sh
 %{__libtoolize}
-%{__aclocal}
+%{__aclocal} -I m4
 %{__autoconf}
 %{__autoheader}
 %{__automake}
@@ -405,7 +422,6 @@ Moduł zapisywania obrazów TIFF dla Evas.
 	%{!?with_static_libs:--disable-static} \
 	--disable-software-qtopia \
 	--enable-software-x11 	\
-	--enable-software-xcb	\
 	--enable-buffer		\
 	--%{?with_directfb:en}%{!?with_directfb:dis}able-directfb	\
 	--enable-fb		\
@@ -459,7 +475,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS COPYING COPYING-PLAIN README
-%attr(755,root,root) %{_libdir}/libevas.so.*.*.*
+%attr(755,root,root) %{_libdir}/libevas.so.*
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/modules
 %dir %{_libdir}/%{name}/modules/engines
@@ -468,7 +484,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/evas-config
+#%attr(755,root,root) %{_bindir}/evas-config
 %attr(755,root,root) %{_libdir}/libevas.so
 %{_libdir}/libevas.la
 %{_includedir}/Evas.h
@@ -489,11 +505,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/modules/engines/buffer/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/buffer/linux-gnu-*/module.so
 
-%files engine-directfb
-%defattr(644,root,root,755)
-%dir %{_libdir}/%{name}/modules/engines/directfb
-%dir %{_libdir}/%{name}/modules/engines/directfb/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/directfb/linux-gnu-*/module.so
+#%files engine-directfb
+#%defattr(644,root,root,755)
+#%dir %{_libdir}/%{name}/modules/engines/directfb
+#%dir %{_libdir}/%{name}/modules/engines/directfb/linux-gnu-*
+#%attr(755,root,root) %{_libdir}/%{name}/modules/engines/directfb/linux-gnu-*/module.so
 
 %files engine-fb
 %defattr(644,root,root,755)
@@ -533,11 +549,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/modules/engines/software_x11/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_x11/linux-gnu-*/module.so
 
-%files engine-software_xcb
-%defattr(644,root,root,755)
-%dir %{_libdir}/%{name}/modules/engines/software_xcb
-%dir %{_libdir}/%{name}/modules/engines/software_xcb/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_xcb/linux-gnu-*/module.so
+#%files engine-software_xcb
+#%defattr(644,root,root,755)
+#%dir %{_libdir}/%{name}/modules/engines/software_xcb
+#%dir %{_libdir}/%{name}/modules/engines/software_xcb/linux-gnu-*
+#%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_xcb/linux-gnu-*/module.so
 
 %files engine-xrender_x11
 %defattr(644,root,root,755)
@@ -574,6 +590,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/modules/loaders/jpeg
 %dir %{_libdir}/%{name}/modules/loaders/jpeg/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/loaders/jpeg/linux-gnu-*/module.so
+
+%files loader-pmaps
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/loaders/pmaps
+%dir %{_libdir}/%{name}/modules/loaders/pmaps/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/pmaps/linux-gnu-*/module.so
 
 %files loader-png
 %defattr(644,root,root,755)

@@ -1,15 +1,13 @@
 #
 # TODO : 
 # --enable-software-xcb	\ - this not build
-# - with fb build fail on ppc (no asm/page.h llh)
-# - with directfb plugin is not builded - work in progres?
 #
 # Conditional build:
 %bcond_without	mmx		# without MMX and MMX2
 %bcond_without	sse		# without SSE
 %bcond_without	altivec		# without altivec
-%bcond_with	fb		# build without FB support
-%bcond_with	directfb	# build without DirectFB support
+%bcond_without	fb		# build without FB support
+%bcond_with	soft_xcb	# build with software xcb support
 %bcond_without	static_libs	# don't build static library
 #
 %ifnarch i586 i686 pentium3 pentium4 athlon %{x8664}
@@ -29,13 +27,12 @@ Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
 Version:	0.9.9.043
-Release:	0.7
+Release:	0.8
 License:	BSD
 Group:		Libraries
 Source0:	http://download.enlightenment.org/snapshots/2008-05-19/%{name}-%{version}.tar.bz2
 # Source0-md5:	31716723798107535dfaf4cf84017685
 URL:		http://enlightenment.org/p.php?p=about/libs/evas
-%{?with_directfb:BuildRequires:	DirectFB-devel >= 0.9.16}
 BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	autoconf >= 2.59-9
 BuildRequires:	automake >= 1.4
@@ -80,12 +77,10 @@ Requires:	edb-devel >= %{edb_ver}
 Requires:	eet-devel >= %{eet_ver}
 Requires:	fontconfig-devel
 Requires:	freetype-devel >= 1:2.2
-# for evas-directfb
-#%{?with_directfb:Requires:	DirectFB-devel >= 0.9.16}
 # for evas-gl_x11, evas-glitz_x11, evas-software_x11, evas-xrender_x11
 #Requires:	xorg-lib-libX11-devel
 # for evas-software_xcb, evas-xrender_xcb
-#Requires:	libxcb-devel
+#Requires:     libxcb-devel
 
 %description devel
 Header files for Evas.
@@ -118,18 +113,6 @@ Memory Buffer rendering engine module for Evas.
 
 %description engine-buffer -l pl.UTF-8
 Moduł silnika renderującego do bufora dla Evas.
-
-%package engine-directfb
-Summary:	Directfb rendering engine module for Evas
-Summary(pl.UTF-8):	Moduł silnika renderującego na Directfb dla Evas
-Group:		X11/Libraries
-Requires:	%{name} = %{version}-%{release}
-
-%description engine-directfb
-Directfb rendering engine module for Evas.
-
-%description engine-directfb -l pl.UTF-8
-Moduł silnika renderującego na Directfb dla Evas.
 
 %package engine-fb
 Summary:	Framebuffer rendering engine module for Evas
@@ -426,8 +409,8 @@ rm -f aclocal.m4 ltmain.sh
 	--disable-software-qtopia \
 	--enable-software-x11 	\
 	--enable-buffer		\
-	--%{?with_directfb:en}%{!?with_directfb:dis}able-directfb	\
 	--%{?with_fb:en}%{!?with_fb:dis}able-fb		\
+	--%{?with_soft_xcb:en}%{!?with_soft_xcb:dis}able-software-xcb	\
 	--enable-gl-x11		\
 	--enable-glitz-x11	\
 	--enable-xrender-x11	\
@@ -487,7 +470,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-#%attr(755,root,root) %{_bindir}/evas-config
 %attr(755,root,root) %{_libdir}/libevas.so
 %{_libdir}/libevas.la
 %{_includedir}/Evas.h
@@ -507,14 +489,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/modules/engines/buffer
 %dir %{_libdir}/%{name}/modules/engines/buffer/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/buffer/linux-gnu-*/module.so
-
-%if %{with directfb}
-%files engine-directfb
-%defattr(644,root,root,755)
-%dir %{_libdir}/%{name}/modules/engines/directfb
-%dir %{_libdir}/%{name}/modules/engines/directfb/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/directfb/linux-gnu-*/module.so
-%endif
 
 %if %{with fb}
 %files engine-fb
@@ -556,11 +530,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/modules/engines/software_x11/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_x11/linux-gnu-*/module.so
 
-#%files engine-software_xcb
-#%defattr(644,root,root,755)
-#%dir %{_libdir}/%{name}/modules/engines/software_xcb
-#%dir %{_libdir}/%{name}/modules/engines/software_xcb/linux-gnu-*
-#%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_xcb/linux-gnu-*/module.so
+%if %{with soft_xcb}
+%files engine-software_xcb
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/engines/software_xcb
+%dir %{_libdir}/%{name}/modules/engines/software_xcb/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_xcb/linux-gnu-*/module.so
+%endif
 
 %files engine-xrender_x11
 %defattr(644,root,root,755)

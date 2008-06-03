@@ -35,7 +35,7 @@ Source0:	http://download.enlightenment.org/snapshots/2008-05-19/%{name}-%{versio
 URL:		http://enlightenment.org/p.php?p=about/libs/evas
 BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	autoconf >= 2.59-9
-BuildRequires:	automake >= 1.4
+BuildRequires:	automake >= 1.6
 BuildRequires:	edb-devel >= %{edb_ver}
 BuildRequires:	eet-devel >= %{eet_ver}
 BuildRequires:	fontconfig-devel
@@ -80,7 +80,7 @@ Requires:	freetype-devel >= 1:2.2
 # for evas-gl_x11, evas-glitz_x11, evas-software_x11, evas-xrender_x11
 #Requires:	xorg-lib-libX11-devel
 # for evas-software_xcb, evas-xrender_xcb
-#Requires:     libxcb-devel
+#Requires:	libxcb-devel
 
 %description devel
 Header files for Evas.
@@ -461,7 +461,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS COPYING COPYING-PLAIN README
-%attr(755,root,root) %{_libdir}/libevas.so.*
+%attr(755,root,root) %{_libdir}/libevas.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libevas.so.0
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/modules
 %dir %{_libdir}/%{name}/modules/engines

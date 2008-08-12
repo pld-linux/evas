@@ -1,6 +1,7 @@
 #
-# TODO : 
-# --enable-software-xcb	\ - this not build
+# TODO :
+# software-xcb	- BR: xcb-util => 0.2.1 +patch
+# xrender-xcb	- BR: xcb-util < 0.2.1
 #
 # Conditional build:
 %bcond_without	mmx		# without MMX and MMX2
@@ -8,6 +9,7 @@
 %bcond_without	altivec		# without altivec
 %bcond_without	fb		# build without FB support
 %bcond_with	soft_xcb	# build with software xcb support
+%bcond_with	xrender_xcb	# build with xrender xcb support
 %bcond_without	static_libs	# don't build static library
 #
 %ifnarch i586 i686 pentium3 pentium4 athlon %{x8664}
@@ -414,7 +416,7 @@ rm -f aclocal.m4 ltmain.sh
 	--enable-gl-x11		\
 	--enable-glitz-x11	\
 	--enable-xrender-x11	\
-	--enable-xrender-xcb	\
+	--%{?with_xrender_xcb:en}%{!?with_xrender_xcb:dis}able-xrender-xcb	\
 	--enable-font-loader-eet	\
 	--enable-image-loader-edb	\
 	--enable-image-loader-eet	\
@@ -545,11 +547,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/modules/engines/xrender_x11/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/xrender_x11/linux-gnu-*/module.so
 
+%if %{with xrender_xcb}
 %files engine-xrender_xcb
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/xrender_xcb
 %dir %{_libdir}/%{name}/modules/engines/xrender_xcb/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/xrender_xcb/linux-gnu-*/module.so
+%endif
 
 %files loader-edb
 %defattr(644,root,root,755)

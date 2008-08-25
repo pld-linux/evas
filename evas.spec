@@ -4,6 +4,7 @@
 # xrender-xcb	- BR: xcb-util < 0.2.1
 #
 # Conditional build:
+%define		_snap	20080813
 %bcond_without	mmx		# without MMX and MMX2
 %bcond_without	sse		# without SSE
 %bcond_without	altivec		# without altivec
@@ -22,20 +23,20 @@
 %undefine	with_altivec
 %endif
 #
-%define		edb_ver 	1.0.5.042
-%define		eet_ver 	1.0.1
+%define		edb_ver 	1.0.5.043
+%define		eet_ver 	1.0.2
 
 Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
-Version:	0.9.9.043
-Release:	0.8
+Version:	0.9.9.044
+Release:	0.7.%{_snap}.1
 License:	BSD
 Group:		Libraries
-Source0:	http://download.enlightenment.org/snapshots/2008-05-19/%{name}-%{version}.tar.bz2
-# Source0-md5:	31716723798107535dfaf4cf84017685
+Source0:	%{name}-%{version}-%{_snap}.tar.bz2
+# Source0-md5:	a855c91ac015658bb1b2d4345de33dd7
 URL:		http://enlightenment.org/p.php?p=about/libs/evas
-BuildRequires:	OpenGL-GLU-devel
+BuildRequires:	Mesa-libGLU-devel
 BuildRequires:	autoconf >= 2.59-9
 BuildRequires:	automake >= 1.6
 BuildRequires:	edb-devel >= %{edb_ver}
@@ -51,6 +52,7 @@ BuildRequires:	libtiff-devel
 BuildRequires:	libtool
 BuildRequires:	libxcb-devel
 BuildRequires:	pkgconfig
+BuildRequires:	readline-devel
 BuildRequires:	xcb-util-devel
 BuildRequires:	xorg-lib-libXext-devel
 Requires:	freetype >= 1:2.2
@@ -396,7 +398,7 @@ TIFF Image saver module for Evas.
 Moduł zapisywania obrazów TIFF dla Evas.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}-%{_snap}
 
 %build
 rm -rf autom4te.cache

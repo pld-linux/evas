@@ -30,7 +30,7 @@ Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
 Version:	0.9.9.044
-Release:	0.7.%{_snap}.1
+Release:	0.7.%{_snap}.2
 License:	BSD
 Group:		Libraries
 Source0:	%{name}-%{version}-%{_snap}.tar.bz2
@@ -478,6 +478,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libevas.so
 %{_libdir}/libevas.la
 %{_includedir}/Evas.h
+%{_includedir}/Evas_Data.h
 %{_pkgconfigdir}/evas.pc
 # engine private structures
 %{_includedir}/Evas_Engine_*.h

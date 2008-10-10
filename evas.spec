@@ -397,7 +397,7 @@ TIFF Image saver module for Evas.
 Moduł zapisywania obrazów TIFF dla Evas.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q
 
 %build
 rm -rf autom4te.cache

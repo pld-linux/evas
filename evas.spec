@@ -28,7 +28,6 @@
 %define		edb_ver		1.0.5.043
 %define		eet_ver 	1.3.2
 
-%define		snapdate	2010-06-27
 %define		svn		-ver-svn-06
 Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania
@@ -37,7 +36,7 @@ Version:	0.9.9.49898
 Release:	0.2
 License:	LGPL v2.1
 Group:		Libraries
-Source0:	http://download.enlightenment.org/snapshots/%{snapdate}/%{name}-%{version}.tar.bz2
+Source0:	http://download.enlightenment.org/snapshots/LATEST/%{name}-%{version}.tar.bz2
 # Source0-md5:	8c547492557fb90ec57441b109683451
 URL:		http://enlightenment.org/p.php?p=about/libs/evas
 BuildRequires:	DirectFB-devel

@@ -28,16 +28,17 @@
 %define		edb_ver		1.0.5.043
 %define		eet_ver 	1.3.2
 
-%define		svn		-ver-svn-06
+%define		svn		%{nil}
 Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
-Version:	0.9.9.49898
-Release:	0.2
+%define	subver	beta2
+Version:	1.0.0
+Release:	0.%{subver}.1
 License:	LGPL v2.1
 Group:		Libraries
-Source0:	http://download.enlightenment.org/snapshots/LATEST/%{name}-%{version}.tar.bz2
-# Source0-md5:	8c547492557fb90ec57441b109683451
+Source0:	http://download.enlightenment.org/releases/%{name}-%{version}.%{subver}.tar.bz2
+# Source0-md5:	9257e31106b472f5e36e0461b0884170
 URL:		http://enlightenment.org/p.php?p=about/libs/evas
 BuildRequires:	DirectFB-devel
 BuildRequires:	Mesa-libGLU-devel
@@ -452,7 +453,7 @@ TIFF Image saver module for Evas.
 Moduł zapisywania obrazów TIFF dla Evas.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}.%{subver}
 
 %build
 rm -rf autom4te.cache
@@ -522,7 +523,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/evas_cserve
 %attr(755,root,root) %{_bindir}/evas_cserve_tool
 %attr(755,root,root) %{_libdir}/libevas*.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libevas%{svn}.so.0
+%attr(755,root,root) %ghost %{_libdir}/libevas%{svn}.so.1
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/modules
 %dir %{_libdir}/%{name}/modules/engines
@@ -533,8 +534,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libevas.so
 %{_libdir}/libevas.la
-%{_includedir}/Evas.h
-%{_includedir}/Evas_Engine_*.h
+%dir %{_includedir}/evas-1
+%{_includedir}/evas-1/*.h
 %{_pkgconfigdir}/evas.pc
 # engine private structures
 %{_pkgconfigdir}/evas-*.pc
@@ -587,13 +588,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/modules/engines/software_generic/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_generic/linux-gnu-*/module.so
 
+%if 0
 %files engine-software_16
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/software_16
 %dir %{_libdir}/%{name}/modules/engines/software_16/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_16/linux-gnu-*/module.so
 
-%if 0
 %files engine-software_qtopia
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/software_qtopia
@@ -604,10 +605,10 @@ rm -rf $RPM_BUILD_ROOT
 %files engine-software_x11
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/software_x11
-%dir %{_libdir}/%{name}/modules/engines/software_16_x11
-%dir %{_libdir}/%{name}/modules/engines/software_16_x11/linux-gnu-*
+#%dir %{_libdir}/%{name}/modules/engines/software_16_x11
+#%dir %{_libdir}/%{name}/modules/engines/software_16_x11/linux-gnu-*
 %dir %{_libdir}/%{name}/modules/engines/software_x11/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_16_x11/linux-gnu-*/module.so
+#%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_16_x11/linux-gnu-*/module.so
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_x11/linux-gnu-*/module.so
 
 %if %{with soft_xcb}

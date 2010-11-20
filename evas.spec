@@ -235,18 +235,17 @@ Software XCB X11 rendering engine module for Evas.
 %description engine-software_xcb -l pl.UTF-8
 Moduł programowego silnika renderującego XCB X11 dla Evas.
 
-
 %package engine-software_16
-Summary:	Software 16bit rendering engine module for Evas
-Summary(pl.UTF-8):	Moduł programowego silnika renderującego 16 bitowego dla Evas
+Summary:	Software 16-bit rendering engine module for Evas
+Summary(pl.UTF-8):	Moduł programowego silnika renderującego 16-bitowego dla Evas
 Group:		X11/Libraries
 Requires:	%{name}-engine-software_generic = %{version}-%{release}
 
 %description engine-software_16
-Software 16 bit rendering engine module for Evas.
+Software 16-bit rendering engine module for Evas.
 
 %description engine-software_16 -l pl.UTF-8
-Moduł programowego silnika renderującego 16 bitowego dla Evas.
+Moduł programowego silnika renderującego 16-bitowego dla Evas.
 
 %package engine-xrender_x11
 Summary:	XRender X11 rendering engine module for Evas

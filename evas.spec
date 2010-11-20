@@ -10,7 +10,7 @@
 %bcond_without	altivec		# without altivec
 %bcond_without	fb		# build without FB support
 %bcond_without	directfb	# build without DirectFB support
-%bcond_with	sdl		# build without SDL support
+%bcond_with	sdl		# build with SDL support
 %bcond_with	soft_xcb	# build with software xcb support
 %bcond_with	xrender_xcb	# build with xrender xcb support
 %bcond_without	static_libs	# don't build static library
@@ -28,7 +28,6 @@
 %define		edb_ver		1.0.5.043
 %define		eet_ver 	1.3.2
 
-%define		svn		%{nil}
 Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
@@ -519,23 +518,29 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS COPYING COPYING-PLAIN README
+%doc AUTHORS COPYING README
 %attr(755,root,root) %{_bindir}/evas_cserve
 %attr(755,root,root) %{_bindir}/evas_cserve_tool
-%attr(755,root,root) %{_libdir}/libevas*.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libevas%{svn}.so.1
+%attr(755,root,root) %{_libdir}/libevas.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libevas.so.1
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/modules
 %dir %{_libdir}/%{name}/modules/engines
 %dir %{_libdir}/%{name}/modules/loaders
 %dir %{_libdir}/%{name}/modules/savers
+# loaders without additional dependencies
+%dir %{_libdir}/%{name}/modules/loaders/bmp
+%dir %{_libdir}/%{name}/modules/loaders/bmp/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/bmp/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/loaders/tga
+%dir %{_libdir}/%{name}/modules/loaders/tga/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/tga/linux-gnu-*/module.so
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libevas.so
 %{_libdir}/libevas.la
-%dir %{_includedir}/evas-1
-%{_includedir}/evas-1/*.h
+%{_includedir}/evas-1
 %{_pkgconfigdir}/evas.pc
 # engine private structures
 %{_pkgconfigdir}/evas-*.pc
@@ -605,10 +610,7 @@ rm -rf $RPM_BUILD_ROOT
 %files engine-software_x11
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/software_x11
-#%dir %{_libdir}/%{name}/modules/engines/software_16_x11
-#%dir %{_libdir}/%{name}/modules/engines/software_16_x11/linux-gnu-*
 %dir %{_libdir}/%{name}/modules/engines/software_x11/linux-gnu-*
-#%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_16_x11/linux-gnu-*/module.so
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_x11/linux-gnu-*/module.so
 
 %if %{with soft_xcb}

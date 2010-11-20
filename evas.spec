@@ -34,7 +34,7 @@ Name:		evas
 %define	subver	beta2
 Version:	1.0.0
 Release:	0.%{subver}.1
-License:	LGPL v2.1
+License:	BSD
 Group:		Libraries
 Source0:	http://download.enlightenment.org/releases/%{name}-%{version}.%{subver}.tar.bz2
 # Source0-md5:	9257e31106b472f5e36e0461b0884170
@@ -46,10 +46,11 @@ BuildRequires:	autoconf >= 2.59-9
 BuildRequires:	automake >= 1.6
 BuildRequires:	edb-devel >= %{edb_ver}
 BuildRequires:	eet-devel >= %{eet_ver}
+BuildRequires:	eina-devel >= 1.0.0
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 1:2.2
+BuildRequires:	fribidi-devel >= 0.19.2
 BuildRequires:	giflib-devel
-BuildRequires:	glitz-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel >= 1.2
 BuildRequires:	librsvg-devel >= 1:2.14.0
@@ -60,8 +61,10 @@ BuildRequires:	pkgconfig
 BuildRequires:	readline-devel
 BuildRequires:	xcb-util-devel
 BuildRequires:	xorg-lib-libXext-devel
-Requires:	freetype >= 1:2.2
 Requires:	eet >= %{eet_ver}
+Requires:	eina >= 1.0.0
+Requires:	freetype >= 1:2.2
+Requires:	fribidi >= 0.19.2
 Obsoletes:	evas-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -86,7 +89,8 @@ Requires:	edb-devel >= %{edb_ver}
 Requires:	eet-devel >= %{eet_ver}
 Requires:	fontconfig-devel
 Requires:	freetype-devel >= 1:2.2
-# for evas-gl_x11, evas-glitz_x11, evas-software_x11, evas-xrender_x11
+Requires:	fribidi-devel >= 0.19.2
+# for evas-gl_x11, evas-software_x11, evas-xrender_x11
 #Requires:	xorg-lib-libX11-devel
 # for evas-software_xcb, evas-xrender_xcb
 #Requires:	libxcb-devel
@@ -170,18 +174,6 @@ OpenGL under X11 rendering engine module for Evas.
 
 %description engine-gl_x11 -l pl.UTF-8
 Moduł silnika renderującego na OpenGL pod X11 dla Evas.
-
-%package engine-glitz_x11
-Summary:	Glitz X11 rendering engine module for Evas
-Summary(pl.UTF-8):	Moduł silnika renderującego na OpenGL pod X11 dla Evas
-Group:		X11/Libraries
-Requires:	%{name} = %{version}-%{release}
-
-%description engine-glitz_x11
-Glitz X11 rendering engine module for Evas.
-
-%description engine-glitz_x11 -l pl.UTF-8
-Moduł silnika renderującego Glitz X11 dla Evas.
 
 %package engine-directfb
 Summary:	DirectFB rendering engine module for Evas
@@ -455,24 +447,23 @@ Moduł zapisywania obrazów TIFF dla Evas.
 %setup -q -n %{name}-%{version}.%{subver}
 
 %build
-rm -rf autom4te.cache
-rm -f aclocal.m4 ltmain.sh
 %{__libtoolize}
 %{__aclocal} -I m4
 %{__autoconf}
 %{__autoheader}
 %{__automake}
 %configure \
+	--disable-silent-rules	\
 	%{!?with_static_libs:--disable-static} \
-	--enable-buffer		\
-	--%{?with_fb:en}%{!?with_fb:dis}able-fb		\
-	--%{?with_soft_xcb:en}%{!?with_soft_xcb:dis}able-software-xcb	\
-	--enable-gl-x11		\
-	--enable-xrender-x11	\
-	--%{?with_sdl:en}%{!?with_sdl:dis}able-software-sdl \
-	--%{?with_sdl:en}%{!?with_sdl:dis}able-gl-sdl \
-	--%{?with_directfb:en}%{!?with_directfb:dis}able-directfb \
-	--%{?with_xrender_xcb:en}%{!?with_xrender_xcb:dis}able-xrender-xcb	\
+	--enable-buffer \
+	--enable-directfb%{!?with_directfb:=no} \
+	--enable-fb%{!?with_fb:=no} \
+	--enable-gl-sdl%{!?with_sdl:=no} \
+	--enable-gl-x11 \
+	--enable-software-sdl%{!?with_sdl:=no} \
+	--enable-software-xcb%{!?with_soft_xcb:=no} \
+	--enable-xrender-x11 \
+	--enable-xrender-xcb%{!?with_xrender_xcb:=no} \
 	--enable-font-loader-eet	\
 	--enable-image-loader-edb	\
 	--enable-image-loader-eet	\
@@ -482,25 +473,13 @@ rm -f aclocal.m4 ltmain.sh
 	--enable-image-loader-svg	\
 	--enable-image-loader-tiff	\
 	--enable-image-loader-xpm	\
-%if %{with mmx}
-	--enable-cpu-mmx	\
-%else
-	--disable-cpu-mmx	\
-%endif
-%if %{with sse}
-	--enable-cpu-sse	\
-%else
-	--disable-cpu-sse	\
-%endif
-%if %{with altivec}
-	--enable-cpu-altivec	\
-%else
-	--disable-cpu-altivec	\
-%endif
-	--enable-cpu-c		\
+	--enable-cpu-altivec%{!?with_altivec:=no} \
+	--enable-cpu-c \
+	--enable-cpu-mmx%{!?with_mmx:=no} \
+	--enable-cpu-sse%{!?with_sse:=no} \
 	--disable-valgrind
 
-%{__make} V=1
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -508,7 +487,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/modules/*/*/*/module.{a,la}
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/modules/*/*/*/module.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -578,14 +557,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/modules/engines/gl_x11
 %dir %{_libdir}/%{name}/modules/engines/gl_x11/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/gl_x11/linux-gnu-*/module.so
-
-%if 0
-%files engine-glitz_x11
-%defattr(644,root,root,755)
-%dir %{_libdir}/%{name}/modules/engines/glitz_x11
-%dir %{_libdir}/%{name}/modules/engines/glitz_x11/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/glitz_x11/linux-gnu-*/module.so
-%endif
 
 %files engine-software_generic
 %defattr(644,root,root,755)

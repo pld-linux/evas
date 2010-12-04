@@ -1,18 +1,12 @@
 #
-# TODO :
-# software-xcb	- BR: xcb-util => 0.2.1 +patch
-# xrender-xcb	- BR: xcb-util < 0.2.1
-# sdl		doesn't compile
-#
 # Conditional build:
-%bcond_without	mmx		# without MMX and MMX2
-%bcond_without	sse		# without SSE
-%bcond_without	altivec		# without altivec
-%bcond_without	fb		# build without FB support
-%bcond_without	directfb	# build without DirectFB support
-%bcond_with	sdl		# build with SDL support
-%bcond_with	soft_xcb	# build with software xcb support
-%bcond_with	xrender_xcb	# build with xrender xcb support
+%bcond_without	mmx		# MMX and MMX2 support (on x86)
+%bcond_without	sse		# SSE support (on x86)
+%bcond_without	altivec		# altivec support (on PPC)
+%bcond_without	fb		# FB engine
+%bcond_without	directfb	# DirectFB engine
+%bcond_without	sdl		# SDL (OpenGL and software) engines
+%bcond_without	xcb		# software_x11 and xrender_x11 engines with XCB support
 %bcond_without	static_libs	# don't build static library
 #
 %ifnarch i586 i686 pentium3 pentium4 athlon %{x8664}
@@ -31,17 +25,17 @@
 Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
-%define	subver	beta2
+%define	subver	beta3
 Version:	1.0.0
 Release:	0.%{subver}.1
 License:	BSD
 Group:		Libraries
 Source0:	http://download.enlightenment.org/releases/%{name}-%{version}.%{subver}.tar.bz2
-# Source0-md5:	9257e31106b472f5e36e0461b0884170
+# Source0-md5:	4e06743a40eaca7bf5f3c1713ed67f73
 URL:		http://enlightenment.org/p.php?p=about/libs/evas
-BuildRequires:	DirectFB-devel
+%{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	Mesa-libGLU-devel
-BuildRequires:	SDL-devel
+%{?with_sdl:BuildRequires:	SDL-devel}
 BuildRequires:	autoconf >= 2.59-9
 BuildRequires:	automake >= 1.6
 BuildRequires:	edb-devel >= %{edb_ver}
@@ -56,10 +50,11 @@ BuildRequires:	libpng-devel >= 1.2
 BuildRequires:	librsvg-devel >= 1:2.14.0
 BuildRequires:	libtiff-devel
 BuildRequires:	libtool
-BuildRequires:	libxcb-devel
+%{?with_xcb:BuildRequires:	libxcb-devel}
+%{?with_xcb:BuildRequires:	pixman-devel}
 BuildRequires:	pkgconfig
 BuildRequires:	readline-devel
-BuildRequires:	xcb-util-devel
+%{?with_xcb:BuildRequires:	xcb-util-devel >= 0.2.1}
 BuildRequires:	xorg-lib-libXext-devel
 Requires:	eet >= %{eet_ver}
 Requires:	eina >= 1.0.0
@@ -85,15 +80,10 @@ Summary:	Evas header files
 Summary(pl.UTF-8):	Pliki nagłówkowe Evas
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	edb-devel >= %{edb_ver}
 Requires:	eet-devel >= %{eet_ver}
 Requires:	fontconfig-devel
 Requires:	freetype-devel >= 1:2.2
 Requires:	fribidi-devel >= 0.19.2
-# for evas-gl_x11, evas-software_x11, evas-xrender_x11
-#Requires:	xorg-lib-libX11-devel
-# for evas-software_xcb, evas-xrender_xcb
-#Requires:	libxcb-devel
 
 %description devel
 Header files for Evas.
@@ -127,6 +117,18 @@ Memory Buffer rendering engine module for Evas.
 %description engine-buffer -l pl.UTF-8
 Moduł silnika renderującego do bufora dla Evas.
 
+%package engine-directfb
+Summary:	DirectFB rendering engine module for Evas
+Summary(pl.UTF-8):	Moduł silnika renderującego na DirectFB dla Evas
+Group:		X11/Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description engine-directfb
+DirectFB rendering engine module for Evas.
+
+%description engine-directfb -l pl.UTF-8
+Moduł silnika renderującego na DirectFB dla Evas.
+
 %package engine-fb
 Summary:	Framebuffer rendering engine module for Evas
 Summary(pl.UTF-8):	Moduł silnika renderującego na framebuffer dla Evas
@@ -151,18 +153,6 @@ SDL OpenGL rendering engine module for Evas.
 %description engine-gl_sdl -l pl.UTF-8
 Moduł silnika renderującego na SDL OpenGL dla Evas.
 
-%package engine-software_sdl
-Summary:	SDL software rendering engine module for Evas
-Summary(pl.UTF-8):	Moduł silnika programowego renderującego na SDL dla Evas
-Group:		X11/Libraries
-Requires:	%{name}-engine-software_generic = %{version}-%{release}
-
-%description engine-software_sdl
-SDL software rendering engine module for Evas.
-
-%description engine-software_sdl -l pl.UTF-8
-Moduł silnika programowego renderującego na SDL dla Evas.
-
 %package engine-gl_x11
 Summary:	OpenGL under X11 rendering engine module for Evas
 Summary(pl.UTF-8):	Moduł silnika renderującego na OpenGL pod X11 dla Evas
@@ -175,17 +165,29 @@ OpenGL under X11 rendering engine module for Evas.
 %description engine-gl_x11 -l pl.UTF-8
 Moduł silnika renderującego na OpenGL pod X11 dla Evas.
 
-%package engine-directfb
-Summary:	DirectFB rendering engine module for Evas
-Summary(pl.UTF-8):	Moduł silnika renderującego na DirectFB dla Evas
+%package engine-software_16
+Summary:	Software 16-bit rendering engine module for Evas
+Summary(pl.UTF-8):	Moduł programowego silnika renderującego 16-bitowego dla Evas
 Group:		X11/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}-engine-software_generic = %{version}-%{release}
 
-%description engine-directfb
-DirectFB rendering engine module for Evas.
+%description engine-software_16
+Software 16-bit rendering engine module for Evas.
 
-%description engine-directfb -l pl.UTF-8
-Moduł silnika renderującego na DirectFB dla Evas.
+%description engine-software_16 -l pl.UTF-8
+Moduł programowego silnika renderującego 16-bitowego dla Evas.
+
+%package engine-software_16_sdl
+Summary:	16-bit SDL software rendering engine module for Evas
+Summary(pl.UTF-8):	Moduł silnika programowego renderującego 16-bitowego na SDL dla Evas
+Group:		X11/Libraries
+Requires:	%{name}-engine-software_generic = %{version}-%{release}
+
+%description engine-software_16_sdl
+16-bit SDL software rendering engine module for Evas.
+
+%description engine-software_16_sdl -l pl.UTF-8
+Moduł silnika programowego renderującego 16-bitowego na SDL dla Evas.
 
 %package engine-software_generic
 Summary:		Software rendering common engine module for Evas
@@ -211,11 +213,24 @@ Qtopia rendering engine module for Evas.
 %description engine-software_qtopia -l pl.UTF-8
 Moduł silnika renderującego Qtopia dla Evas.
 
+%package engine-software_sdl
+Summary:	SDL software rendering engine module for Evas
+Summary(pl.UTF-8):	Moduł silnika programowego renderującego na SDL dla Evas
+Group:		X11/Libraries
+Requires:	%{name}-engine-software_generic = %{version}-%{release}
+
+%description engine-software_sdl
+SDL software rendering engine module for Evas.
+
+%description engine-software_sdl -l pl.UTF-8
+Moduł silnika programowego renderującego na SDL dla Evas.
+
 %package engine-software_x11
 Summary:	Software X11 rendering engine module for Evas
 Summary(pl.UTF-8):	Moduł programowego silnika renderującego X11 dla Evas
 Group:		X11/Libraries
 Requires:	%{name}-engine-software_generic = %{version}-%{release}
+Obsoletes:	evas-engine-software_xcb
 
 %description engine-software_x11
 Software X11 rendering engine module for Evas.
@@ -223,53 +238,18 @@ Software X11 rendering engine module for Evas.
 %description engine-software_x11 -l pl.UTF-8
 Moduł programowego silnika renderującego X11 dla Evas.
 
-%package engine-software_xcb
-Summary:	Software XCB X11 rendering engine module for Evas
-Summary(pl.UTF-8):	Moduł programowego silnika renderującego XCB X11 dla Evas
-Group:		X11/Libraries
-Requires:	%{name}-engine-software_generic = %{version}-%{release}
-
-%description engine-software_xcb
-Software XCB X11 rendering engine module for Evas.
-
-%description engine-software_xcb -l pl.UTF-8
-Moduł programowego silnika renderującego XCB X11 dla Evas.
-
-%package engine-software_16
-Summary:	Software 16-bit rendering engine module for Evas
-Summary(pl.UTF-8):	Moduł programowego silnika renderującego 16-bitowego dla Evas
-Group:		X11/Libraries
-Requires:	%{name}-engine-software_generic = %{version}-%{release}
-
-%description engine-software_16
-Software 16-bit rendering engine module for Evas.
-
-%description engine-software_16 -l pl.UTF-8
-Moduł programowego silnika renderującego 16-bitowego dla Evas.
-
 %package engine-xrender_x11
 Summary:	XRender X11 rendering engine module for Evas
 Summary(pl.UTF-8):	Moduł silnika renderującego XRender X11 dla Evas
 Group:		X11/Libraries
 Requires:	%{name}-engine-software_generic = %{version}-%{release}
+Obsoletes:	evas-engine-xrender_xcb
 
 %description engine-xrender_x11
 XRender X11 rendering engine module for Evas.
 
 %description engine-xrender_x11 -l pl.UTF-8
 Moduł silnika renderującego XRender X11 dla Evas.
-
-%package engine-xrender_xcb
-Summary:	XRender XCB rendering engine module for Evas
-Summary(pl.UTF-8):	Moduł silnika renderującego XCB XRender dla Evas
-Group:		X11/Libraries
-Requires:	%{name}-engine-software_generic = %{version}-%{release}
-
-%description engine-xrender_xcb
-XCB XRender rendering engine module for Evas.
-
-%description engine-xrender_xcb -l pl.UTF-8
-Moduł silnika renderującego XCB XRender dla Evas.
 
 # loaders:
 %package loader-edb
@@ -460,9 +440,9 @@ Moduł zapisywania obrazów TIFF dla Evas.
 	--enable-gl-sdl%{!?with_sdl:=no} \
 	--enable-gl-x11 \
 	--enable-software-sdl%{!?with_sdl:=no} \
-	--enable-software-xcb%{!?with_soft_xcb:=no} \
+	--enable-software-xcb%{!?with_xcb:=no} \
 	--enable-xrender-x11 \
-	--enable-xrender-xcb%{!?with_xrender_xcb:=no} \
+	--enable-xrender-xcb%{!?with_xcb:=no} \
 	--enable-font-loader-eet	\
 	--enable-image-loader-edb	\
 	--enable-image-loader-eet	\
@@ -487,6 +467,7 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/modules/*/*/*/module.la
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/modules/engines/software_16_sdl/linux-gnu-*/module.a
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -521,7 +502,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/evas-1
 %{_pkgconfigdir}/evas.pc
 # engine private structures
-%{_pkgconfigdir}/evas-*.pc
+%{?with_directfb:%{_pkgconfigdir}/evas-directfb.pc}
+%{_pkgconfigdir}/evas-fb.pc
+%{?with_sdl:%{_pkgconfigdir}/evas-opengl-sdl.pc}
+%{_pkgconfigdir}/evas-opengl-x11.pc
+%{_pkgconfigdir}/evas-software-buffer.pc
+%{?with_sdl:%{_pkgconfigdir}/evas-software-sdl.pc}
+%{_pkgconfigdir}/evas-software-x11.pc
+%{_pkgconfigdir}/evas-xrender-x11.pc
+%{?with_xcb:%{_pkgconfigdir}/evas-xrender-xcb.pc}
 
 %if %{with static_libs}
 %files static
@@ -551,11 +540,33 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/fb/linux-gnu-*/module.so
 %endif
 
+%if %{with sdl}
+%files engine-gl_sdl
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/engines/gl_sdl
+%dir %{_libdir}/%{name}/modules/engines/gl_sdl/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/gl_sdl/linux-gnu-*/module.so
+%endif
+
 %files engine-gl_x11
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/gl_x11
 %dir %{_libdir}/%{name}/modules/engines/gl_x11/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/gl_x11/linux-gnu-*/module.so
+
+%files engine-software_16
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/engines/software_16
+%dir %{_libdir}/%{name}/modules/engines/software_16/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_16/linux-gnu-*/module.so
+
+%if %{with sdl}
+%files engine-software_16_sdl
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/engines/software_16_sdl
+%dir %{_libdir}/%{name}/modules/engines/software_16_sdl/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_16_sdl/linux-gnu-*/module.so
+%endif
 
 %files engine-software_generic
 %defattr(644,root,root,755)
@@ -564,17 +575,19 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_generic/linux-gnu-*/module.so
 
 %if 0
-%files engine-software_16
-%defattr(644,root,root,755)
-%dir %{_libdir}/%{name}/modules/engines/software_16
-%dir %{_libdir}/%{name}/modules/engines/software_16/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_16/linux-gnu-*/module.so
-
 %files engine-software_qtopia
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/software_qtopia
 %dir %{_libdir}/%{name}/modules/engines/software_qtopia/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_qtopia/linux-gnu-*/module.so
+%endif
+
+%if %{with sdl}
+%files engine-software_sdl
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/engines/software_sdl
+%dir %{_libdir}/%{name}/modules/engines/software_sdl/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_sdl/linux-gnu-*/module.so
 %endif
 
 %files engine-software_x11
@@ -583,27 +596,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/modules/engines/software_x11/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_x11/linux-gnu-*/module.so
 
-%if %{with soft_xcb}
-%files engine-software_xcb
-%defattr(644,root,root,755)
-%dir %{_libdir}/%{name}/modules/engines/software_xcb
-%dir %{_libdir}/%{name}/modules/engines/software_xcb/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_xcb/linux-gnu-*/module.so
-%endif
-
 %files engine-xrender_x11
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/xrender_x11
 %dir %{_libdir}/%{name}/modules/engines/xrender_x11/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/xrender_x11/linux-gnu-*/module.so
-
-%if %{with xrender_xcb}
-%files engine-xrender_xcb
-%defattr(644,root,root,755)
-%dir %{_libdir}/%{name}/modules/engines/xrender_xcb
-%dir %{_libdir}/%{name}/modules/engines/xrender_xcb/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/xrender_xcb/linux-gnu-*/module.so
-%endif
 
 %files loader-edb
 %defattr(644,root,root,755)

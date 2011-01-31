@@ -25,13 +25,12 @@
 Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
-%define	subver	beta3
 Version:	1.0.0
-Release:	0.%{subver}.1
+Release:	1
 License:	BSD
 Group:		Libraries
-Source0:	http://download.enlightenment.org/releases/%{name}-%{version}.%{subver}.tar.bz2
-# Source0-md5:	4e06743a40eaca7bf5f3c1713ed67f73
+Source0:	http://download.enlightenment.org/releases/%{name}-%{version}.tar.bz2
+# Source0-md5:	a1d4a103ff28cee247b1a388013938af
 URL:		http://enlightenment.org/p.php?p=about/libs/evas
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	Mesa-libGLU-devel
@@ -423,7 +422,7 @@ TIFF Image saver module for Evas.
 Moduł zapisywania obrazów TIFF dla Evas.
 
 %prep
-%setup -q -n %{name}-%{version}.%{subver}
+%setup -q -n %{name}-%{version}
 
 %build
 %{__libtoolize}

@@ -20,7 +20,7 @@
 %endif
 #
 %define		edb_ver		1.0.5.043
-%define		eet_ver 	1.3.2
+%define		eet_ver 	1.4.0
 
 Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania
@@ -476,7 +476,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS COPYING README
+%doc AUTHORS COPYING ChangeLog README
 %attr(755,root,root) %{_bindir}/evas_cserve
 %attr(755,root,root) %{_bindir}/evas_cserve_tool
 %attr(755,root,root) %{_libdir}/libevas.so.*.*.*

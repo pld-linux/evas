@@ -31,7 +31,7 @@ License:	BSD
 Group:		Libraries
 Source0:	http://download.enlightenment.org/releases/%{name}-%{version}.tar.bz2
 # Source0-md5:	a1d4a103ff28cee247b1a388013938af
-URL:		http://enlightenment.org/p.php?p=about/libs/evas
+URL:		http://trac.enlightenment.org/e/wiki/Evas
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	Mesa-libGLU-devel
 %{?with_sdl:BuildRequires:	SDL-devel}

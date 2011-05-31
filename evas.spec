@@ -25,12 +25,12 @@
 Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
-Version:	1.0.0
-Release:	3
+Version:	1.0.1
+Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	http://download.enlightenment.org/releases/%{name}-%{version}.tar.bz2
-# Source0-md5:	a1d4a103ff28cee247b1a388013938af
+# Source0-md5:	e061acce3dd2da8300cc11f65df54250
 URL:		http://trac.enlightenment.org/e/wiki/Evas
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	Mesa-libGLU-devel
@@ -49,12 +49,14 @@ BuildRequires:	libpng-devel >= 1.2
 BuildRequires:	librsvg-devel >= 1:2.14.0
 BuildRequires:	libtiff-devel
 BuildRequires:	libtool
-%{?with_xcb:BuildRequires:	libxcb-devel}
-%{?with_xcb:BuildRequires:	pixman-devel}
 BuildRequires:	pkgconfig
 BuildRequires:	readline-devel
-%{?with_xcb:BuildRequires:	xcb-util-devel >= 0.2.1}
 BuildRequires:	xorg-lib-libXext-devel
+%if %{with xcb}
+BuildRequires:	libxcb-devel
+BuildRequires:	pixman-devel
+BuildRequires:	xcb-util-image-devel >= 0.2.1
+%endif
 Requires:	eet >= %{eet_ver}
 Requires:	eina >= 1.0.0
 Requires:	freetype >= 1:2.2

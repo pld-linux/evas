@@ -6,7 +6,7 @@
 %bcond_without	fb		# FB engine
 %bcond_without	directfb	# DirectFB engine
 %bcond_without	sdl		# SDL (OpenGL and software) engines
-%bcond_without	xcb		# software_x11 and xrender_x11 engines with XCB support
+%bcond_without	xcb		# software_x11 engine with XCB support
 %bcond_without	static_libs	# don't build static library
 #
 %ifnarch i586 i686 pentium3 pentium4 athlon %{x8664}
@@ -25,12 +25,13 @@
 Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
-Version:	1.0.1
+Version:	1.1.0
 Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	http://download.enlightenment.org/releases/%{name}-%{version}.tar.bz2
-# Source0-md5:	e061acce3dd2da8300cc11f65df54250
+# Source0-md5:	f8d8751be7cfc8124e5af31e2dced792
+Patch0:		%{name}-harfbuzz.patch
 URL:		http://trac.enlightenment.org/e/wiki/Evas
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	Mesa-libGLU-devel
@@ -39,11 +40,12 @@ BuildRequires:	autoconf >= 2.59-9
 BuildRequires:	automake >= 1.6
 BuildRequires:	edb-devel >= %{edb_ver}
 BuildRequires:	eet-devel >= %{eet_ver}
-BuildRequires:	eina-devel >= 1.0.0
-BuildRequires:	fontconfig-devel
+BuildRequires:	eina-devel >= 1.1.0
+BuildRequires:	fontconfig-devel >= 2.5.0
 BuildRequires:	freetype-devel >= 1:2.2
 BuildRequires:	fribidi-devel >= 0.19.2
 BuildRequires:	giflib-devel
+BuildRequires:	harfbuzz-devel >= 0.6.0
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel >= 1.2
 BuildRequires:	librsvg-devel >= 1:2.14.0
@@ -54,14 +56,20 @@ BuildRequires:	readline-devel
 BuildRequires:	xorg-lib-libXext-devel
 %if %{with xcb}
 BuildRequires:	libxcb-devel
-BuildRequires:	pixman-devel
+# --enable-pixman ?
+#BuildRequires:	pixman-devel
 BuildRequires:	xcb-util-image-devel >= 0.2.1
 %endif
 Requires:	eet >= %{eet_ver}
-Requires:	eina >= 1.0.0
+Requires:	eina >= 1.1.0
 Requires:	freetype >= 1:2.2
 Requires:	fribidi >= 0.19.2
+Requires:	harfbuzz >= 0.6.0
 Obsoletes:	evas-libs
+Obsoletes:	evas-engine-software_16
+Obsoletes:	evas-engine-software_qtopia
+Obsoletes:	evas-engine-xrender_x11
+Obsoletes:	evas-engine-xrender_xcb
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %undefine	__cxx
@@ -85,6 +93,7 @@ Requires:	eet-devel >= %{eet_ver}
 Requires:	fontconfig-devel
 Requires:	freetype-devel >= 1:2.2
 Requires:	fribidi-devel >= 0.19.2
+Requires:	harfbuzz-devel >= 0.6.0
 
 %description devel
 Header files for Evas.
@@ -166,18 +175,6 @@ OpenGL under X11 rendering engine module for Evas.
 %description engine-gl_x11 -l pl.UTF-8
 Moduł silnika renderującego na OpenGL pod X11 dla Evas.
 
-%package engine-software_16
-Summary:	Software 16-bit rendering engine module for Evas
-Summary(pl.UTF-8):	Moduł programowego silnika renderującego 16-bitowego dla Evas
-Group:		X11/Libraries
-Requires:	%{name}-engine-software_generic = %{version}-%{release}
-
-%description engine-software_16
-Software 16-bit rendering engine module for Evas.
-
-%description engine-software_16 -l pl.UTF-8
-Moduł programowego silnika renderującego 16-bitowego dla Evas.
-
 %package engine-software_16_sdl
 Summary:	16-bit SDL software rendering engine module for Evas
 Summary(pl.UTF-8):	Moduł silnika programowego renderującego 16-bitowego na SDL dla Evas
@@ -201,18 +198,6 @@ Software rendering common engine module for Evas.
 
 %description engine-software_generic -l pl.UTF-8
 Moduł wspólnego programowego silnika renderującego dla Evas.
-
-%package engine-software_qtopia
-Summary:	Qtopia rendering engine module for Evas
-Summary(pl.UTF-8):	Moduł silnika renderującego Qtopia dla Evas
-Group:		X11/Libraries
-Requires:	%{name}-engine-software_generic = %{version}-%{release}
-
-%description engine-software_qtopia
-Qtopia rendering engine module for Evas.
-
-%description engine-software_qtopia -l pl.UTF-8
-Moduł silnika renderującego Qtopia dla Evas.
 
 %package engine-software_sdl
 Summary:	SDL software rendering engine module for Evas
@@ -238,19 +223,6 @@ Software X11 rendering engine module for Evas.
 
 %description engine-software_x11 -l pl.UTF-8
 Moduł programowego silnika renderującego X11 dla Evas.
-
-%package engine-xrender_x11
-Summary:	XRender X11 rendering engine module for Evas
-Summary(pl.UTF-8):	Moduł silnika renderującego XRender X11 dla Evas
-Group:		X11/Libraries
-Requires:	%{name}-engine-software_generic = %{version}-%{release}
-Obsoletes:	evas-engine-xrender_xcb
-
-%description engine-xrender_x11
-XRender X11 rendering engine module for Evas.
-
-%description engine-xrender_x11 -l pl.UTF-8
-Moduł silnika renderującego XRender X11 dla Evas.
 
 # loaders:
 %package loader-edb
@@ -425,6 +397,7 @@ Moduł zapisywania obrazów TIFF dla Evas.
 
 %prep
 %setup -q -n %{name}-%{version}
+%patch0 -p1
 
 %build
 %{__libtoolize}
@@ -436,15 +409,15 @@ Moduł zapisywania obrazów TIFF dla Evas.
 	--disable-silent-rules	\
 	%{!?with_static_libs:--disable-static} \
 	--enable-buffer \
+	--enable-cpu-altivec%{!?with_altivec:=no} \
+	--enable-cpu-c \
+	--enable-cpu-mmx%{!?with_mmx:=no} \
+	--enable-cpu-sse%{!?with_sse:=no} \
 	--enable-directfb%{!?with_directfb:=no} \
 	--enable-fb%{!?with_fb:=no} \
+	--enable-font-loader-eet	\
 	--enable-gl-sdl%{!?with_sdl:=no} \
 	--enable-gl-x11 \
-	--enable-software-sdl%{!?with_sdl:=no} \
-	--enable-software-xcb%{!?with_xcb:=no} \
-	--enable-xrender-x11 \
-	--enable-xrender-xcb%{!?with_xcb:=no} \
-	--enable-font-loader-eet	\
 	--enable-image-loader-edb	\
 	--enable-image-loader-eet	\
 	--enable-image-loader-gif	\
@@ -453,10 +426,9 @@ Moduł zapisywania obrazów TIFF dla Evas.
 	--enable-image-loader-svg	\
 	--enable-image-loader-tiff	\
 	--enable-image-loader-xpm	\
-	--enable-cpu-altivec%{!?with_altivec:=no} \
-	--enable-cpu-c \
-	--enable-cpu-mmx%{!?with_mmx:=no} \
-	--enable-cpu-sse%{!?with_sse:=no} \
+	--enable-pixman			\
+	--enable-software-sdl%{!?with_sdl:=no} \
+	--enable-software-xcb%{!?with_xcb:=no} \
 	--disable-valgrind
 
 %{__make}
@@ -470,6 +442,9 @@ rm -rf $RPM_BUILD_ROOT
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/modules/*/*/*/module.la
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/modules/engines/software_16_sdl/linux-gnu-*/module.a
 
+install -d $RPM_BUILD_ROOT%{_examplesdir}
+mv -f $RPM_BUILD_ROOT%{_datadir}/evas/examples $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -478,7 +453,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS COPYING ChangeLog README
+%doc AUTHORS COPYING ChangeLog NEWS README
 %attr(755,root,root) %{_bindir}/evas_cserve
 %attr(755,root,root) %{_bindir}/evas_cserve_tool
 %attr(755,root,root) %{_libdir}/libevas.so.*.*.*
@@ -492,9 +467,21 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/modules/loaders/bmp
 %dir %{_libdir}/%{name}/modules/loaders/bmp/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/loaders/bmp/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/loaders/generic
+%dir %{_libdir}/%{name}/modules/loaders/generic/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/generic/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/loaders/ico
+%dir %{_libdir}/%{name}/modules/loaders/ico/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/ico/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/loaders/psd
+%dir %{_libdir}/%{name}/modules/loaders/psd/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/psd/linux-gnu-*/module.so
 %dir %{_libdir}/%{name}/modules/loaders/tga
 %dir %{_libdir}/%{name}/modules/loaders/tga/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/loaders/tga/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/loaders/wbmp
+%dir %{_libdir}/%{name}/modules/loaders/wbmp/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/wbmp/linux-gnu-*/module.so
 
 %files devel
 %defattr(644,root,root,755)
@@ -510,8 +497,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/evas-software-buffer.pc
 %{?with_sdl:%{_pkgconfigdir}/evas-software-sdl.pc}
 %{_pkgconfigdir}/evas-software-x11.pc
-%{_pkgconfigdir}/evas-xrender-x11.pc
-%{?with_xcb:%{_pkgconfigdir}/evas-xrender-xcb.pc}
+%{_examplesdir}/%{name}-%{version}
 
 %if %{with static_libs}
 %files static
@@ -555,12 +541,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/modules/engines/gl_x11/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/gl_x11/linux-gnu-*/module.so
 
-%files engine-software_16
-%defattr(644,root,root,755)
-%dir %{_libdir}/%{name}/modules/engines/software_16
-%dir %{_libdir}/%{name}/modules/engines/software_16/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_16/linux-gnu-*/module.so
-
 %if %{with sdl}
 %files engine-software_16_sdl
 %defattr(644,root,root,755)
@@ -575,14 +555,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/modules/engines/software_generic/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_generic/linux-gnu-*/module.so
 
-%if 0
-%files engine-software_qtopia
-%defattr(644,root,root,755)
-%dir %{_libdir}/%{name}/modules/engines/software_qtopia
-%dir %{_libdir}/%{name}/modules/engines/software_qtopia/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_qtopia/linux-gnu-*/module.so
-%endif
-
 %if %{with sdl}
 %files engine-software_sdl
 %defattr(644,root,root,755)
@@ -596,12 +568,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/modules/engines/software_x11
 %dir %{_libdir}/%{name}/modules/engines/software_x11/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_x11/linux-gnu-*/module.so
-
-%files engine-xrender_x11
-%defattr(644,root,root,755)
-%dir %{_libdir}/%{name}/modules/engines/xrender_x11
-%dir %{_libdir}/%{name}/modules/engines/xrender_x11/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/xrender_x11/linux-gnu-*/module.so
 
 %files loader-edb
 %defattr(644,root,root,755)

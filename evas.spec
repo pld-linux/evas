@@ -20,7 +20,7 @@
 %endif
 #
 %define		edb_ver		1.0.5.043
-%define		eet_ver 	1.4.0
+%define		eet_ver 	1.5.0
 
 Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania

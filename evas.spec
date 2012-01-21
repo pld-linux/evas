@@ -6,7 +6,7 @@
 %bcond_without	fb		# FB engine
 %bcond_without	directfb	# DirectFB engine
 %bcond_without	sdl		# SDL (OpenGL and software) engines
-%bcond_without	xcb		# software_x11 engine with XCB support
+%bcond_with	xcb		# software_x11 engine with XCB support (experimental)
 %bcond_without	static_libs	# don't build static library
 #
 %ifnarch i586 i686 pentium3 pentium4 athlon %{x8664}
@@ -26,12 +26,13 @@ Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
 Version:	1.1.0
-Release:	2
+Release:	3
 License:	BSD
 Group:		Libraries
 Source0:	http://download.enlightenment.org/releases/%{name}-%{version}.tar.bz2
 # Source0-md5:	f8d8751be7cfc8124e5af31e2dced792
 Patch0:		%{name}-harfbuzz.patch
+Patch1:		automake.patch
 URL:		http://trac.enlightenment.org/e/wiki/Evas
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	Mesa-libGLU-devel
@@ -398,6 +399,7 @@ Moduł zapisywania obrazów TIFF dla Evas.
 %prep
 %setup -q -n %{name}-%{version}
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__libtoolize}
@@ -417,7 +419,6 @@ Moduł zapisywania obrazów TIFF dla Evas.
 	--enable-fb%{!?with_fb:=no} \
 	--enable-font-loader-eet	\
 	--enable-gl-sdl%{!?with_sdl:=no} \
-	--enable-gl-x11 \
 	--enable-image-loader-edb	\
 	--enable-image-loader-eet	\
 	--enable-image-loader-gif	\
@@ -429,9 +430,12 @@ Moduł zapisywania obrazów TIFF dla Evas.
 	--enable-pixman			\
 	--enable-software-sdl%{!?with_sdl:=no} \
 	--enable-software-xcb%{!?with_xcb:=no} \
+	--enable-software-xlib \
+	--enable-gl-xcb%{!?with_xcb:=no} \
+	--enable-gl-xlib \
 	--disable-valgrind
 
-%{__make}
+%{__make} V=1
 
 %install
 rm -rf $RPM_BUILD_ROOT

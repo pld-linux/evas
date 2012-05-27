@@ -1,4 +1,4 @@
-# TODO: liblinebreak?
+# TODO: use system liblinebreak?
 #
 # Conditional build:
 %bcond_without	mmx		# MMX and MMX2 support (on x86)

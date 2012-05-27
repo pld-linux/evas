@@ -1,0 +1,46 @@
+--- evas-1.2.0/src/modules/engines/wayland_egl/evas_engine.h.orig	2012-01-12 14:07:46.000000000 +0100
++++ evas-1.2.0/src/modules/engines/wayland_egl/evas_engine.h	2012-05-27 17:32:54.658986859 +0200
+@@ -1,6 +1,10 @@
+ #ifndef EVAS_ENGINE_H
+ #define EVAS_ENGINE_H
+ 
++#ifndef GLES_WAYLAND
++#define GLES_WAYLAND 1
++#endif
++
+ #include "config.h"
+ #include "evas_common.h"
+ #include "evas_private.h"
+--- evas-1.2.0/src/modules/engines/gl_common/evas_gl_common.h.orig	2012-04-20 15:36:16.000000000 +0200
++++ evas-1.2.0/src/modules/engines/gl_common/evas_gl_common.h	2012-05-27 17:32:34.405654373 +0200
+@@ -26,10 +26,10 @@
+ #   include <SDL/SDL_opengl.h>
+ #  endif
+ # else
+-#  if defined (GLES_VARIETY_S3C6410) || defined (GLES_VARIETY_SGX)
++#  if defined (GLES_VARIETY_S3C6410) || defined (GLES_VARIETY_SGX) || defined (GLES_WAYLAND)
+ #   if defined(GLES_VARIETY_S3C6410)
+ #    include <GLES2/gl2.h>
+-#   elif defined(GLES_VARIETY_SGX)
++#   elif defined(GLES_VARIETY_SGX) || defined (GLES_WAYLAND)
+ #    include <GLES2/gl2.h>
+ #    include <GLES2/gl2ext.h>
+ #   endif
+@@ -341,7 +341,7 @@
+    /* If this is set: Force drawing with a particular filter */
+    GLuint	filter_prog;
+ 
+-#if defined (GLES_VARIETY_S3C6410) || defined (GLES_VARIETY_SGX)
++#if defined (GLES_VARIETY_S3C6410) || defined (GLES_VARIETY_SGX) || defined (GLES_WAYLAND)
+ // FIXME: hack. expose egl display to gl core for egl image sec extn.
+    void *egldisp;
+ #endif
+@@ -633,7 +633,7 @@
+ extern void (*glsym_glProgramParameteri)    (GLuint a, GLuint b, GLint d);
+ extern void (*glsym_glReleaseShaderCompiler)(void);
+ 
+-#if defined (GLES_VARIETY_S3C6410) || defined (GLES_VARIETY_SGX)
++#if defined (GLES_VARIETY_S3C6410) || defined (GLES_VARIETY_SGX) || defined (GLES_WAYLAND)
+ extern void          *(*secsym_eglCreateImage)               (void *a, void *b, GLenum c, void *d, const int *e);
+ extern unsigned int   (*secsym_eglDestroyImage)              (void *a, void *b);
+ extern void           (*secsym_glEGLImageTargetTexture2DOES) (int a, void *b);

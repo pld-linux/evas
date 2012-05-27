@@ -1,3 +1,4 @@
+# TODO: liblinebreak?
 #
 # Conditional build:
 %bcond_without	mmx		# MMX and MMX2 support (on x86)
@@ -6,6 +7,7 @@
 %bcond_without	fb		# FB engine
 %bcond_without	directfb	# DirectFB engine
 %bcond_without	sdl		# SDL (OpenGL and software) engines
+%bcond_without	wayland		# wayland-egl, wayland-shm engines
 %bcond_with	xcb		# software_x11 engine with XCB support (experimental)
 %bcond_without	static_libs	# don't build static library
 #
@@ -20,28 +22,28 @@
 %endif
 #
 %define		edb_ver		1.0.5.043
-%define		eet_ver 	1.5.0
+%define		eet_ver 	1.6.0
 
 Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
-Version:	1.1.0
-Release:	6
+Version:	1.2.0
+Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	http://download.enlightenment.org/releases/%{name}-%{version}.tar.bz2
-# Source0-md5:	f8d8751be7cfc8124e5af31e2dced792
+# Source0-md5:	a245e432695cea1120d43cdbcb94b7f7
 Patch0:		%{name}-harfbuzz.patch
-Patch1:		automake.patch
+Patch1:		%{name}-wayland.patch
 URL:		http://trac.enlightenment.org/e/wiki/Evas
-%{?with_directfb:BuildRequires:	DirectFB-devel}
+%{?with_directfb:BuildRequires:	DirectFB-devel >= 0.9.16}
 BuildRequires:	Mesa-libGLU-devel
-%{?with_sdl:BuildRequires:	SDL-devel}
+%{?with_sdl:BuildRequires:	SDL-devel >= 1.2.0}
 BuildRequires:	autoconf >= 2.59-9
 BuildRequires:	automake >= 1.6
 BuildRequires:	edb-devel >= %{edb_ver}
 BuildRequires:	eet-devel >= %{eet_ver}
-BuildRequires:	eina-devel >= 1.1.0
+BuildRequires:	eina-devel >= 1.2.0
 BuildRequires:	fontconfig-devel >= 2.5.0
 BuildRequires:	freetype-devel >= 1:2.2
 BuildRequires:	fribidi-devel >= 0.19.2
@@ -52,22 +54,27 @@ BuildRequires:	libpng-devel >= 1.2
 BuildRequires:	librsvg-devel >= 1:2.14.0
 BuildRequires:	libtiff-devel
 BuildRequires:	libtool
+BuildRequires:	pixman-devel
 BuildRequires:	pkgconfig
 BuildRequires:	readline-devel
 BuildRequires:	xorg-lib-libXext-devel
 %if %{with xcb}
 BuildRequires:	libxcb-devel
-# --enable-pixman ?
-#BuildRequires:	pixman-devel
 BuildRequires:	xcb-util-image-devel >= 0.2.1
 %endif
+%if %{with wayland}
+BuildRequires:	OpenGL-devel
+BuildRequires:	Mesa-libEGL-devel >= 7.10
+BuildRequires:	Mesa-libGLES-devel
+BuildRequires:	Mesa-libwayland-egl-devel
+BuildRequires:	wayland-devel
+%endif
 Requires:	eet >= %{eet_ver}
-Requires:	eina >= 1.1.0
+Requires:	eina >= 1.2.0
 Requires:	freetype >= 1:2.2
 Requires:	fribidi >= 0.19.2
 Requires:	harfbuzz >= 0.6.0
 Obsoletes:	evas-libs
-Obsoletes:	evas-engine-software_16
 Obsoletes:	evas-engine-software_qtopia
 Obsoletes:	evas-engine-xrender_x11
 Obsoletes:	evas-engine-xrender_xcb
@@ -91,7 +98,8 @@ Summary(pl.UTF-8):	Pliki nagłówkowe Evas
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	eet-devel >= %{eet_ver}
-Requires:	fontconfig-devel
+Requires:	eina-devel >= 1.2.0
+Requires:	fontconfig-devel >= 2.5.0
 Requires:	freetype-devel >= 1:2.2
 Requires:	fribidi-devel >= 0.19.2
 Requires:	harfbuzz-devel >= 0.6.0
@@ -133,6 +141,7 @@ Summary:	DirectFB rendering engine module for Evas
 Summary(pl.UTF-8):	Moduł silnika renderującego na DirectFB dla Evas
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	DirectFB >= 0.9.16
 
 %description engine-directfb
 DirectFB rendering engine module for Evas.
@@ -157,6 +166,7 @@ Summary:	SDL OpenGL rendering engine module for Evas
 Summary(pl.UTF-8):	Moduł silnika renderującego na SDL OpenGL dla Evas
 Group:		X11/Libraries
 Requires:	%{name}-engine-software_generic = %{version}-%{release}
+Requires:	SDL >= 1.2.0
 
 %description engine-gl_sdl
 SDL OpenGL rendering engine module for Evas.
@@ -176,17 +186,43 @@ OpenGL under X11 rendering engine module for Evas.
 %description engine-gl_x11 -l pl.UTF-8
 Moduł silnika renderującego na OpenGL pod X11 dla Evas.
 
+%package engine-software_16
+Summary:	16-bit software rendering engine module for Evas
+Summary(pl.UTF-8):	Moduł silnika programowego renderującego 16-bitowego dla Evas
+Group:		X11/Libraries
+Requires:	%{name}-engine-software_generic = %{version}-%{release}
+
+%description engine-software_16
+16-bit software rendering engine module for Evas.
+
+%description engine-software_16 -l pl.UTF-8
+Moduł silnika programowego renderującego 16-bitowego dla Evas.
+
 %package engine-software_16_sdl
 Summary:	16-bit SDL software rendering engine module for Evas
 Summary(pl.UTF-8):	Moduł silnika programowego renderującego 16-bitowego na SDL dla Evas
 Group:		X11/Libraries
 Requires:	%{name}-engine-software_generic = %{version}-%{release}
+Requires:	SDL >= 1.2.0
+Obsoletes:	evas-engine-software_sdl
 
 %description engine-software_16_sdl
 16-bit SDL software rendering engine module for Evas.
 
 %description engine-software_16_sdl -l pl.UTF-8
 Moduł silnika programowego renderującego 16-bitowego na SDL dla Evas.
+
+%package engine-software_16_x11
+Summary:	16-bit X11 software rendering engine module for Evas
+Summary(pl.UTF-8):	Moduł silnika programowego renderującego 16-bitowego na X11 dla Evas
+Group:		X11/Libraries
+Requires:	%{name}-engine-software_generic = %{version}-%{release}
+
+%description engine-software_16_x11
+16-bit X11 software rendering engine module for Evas.
+
+%description engine-software_16_x11 -l pl.UTF-8
+Moduł silnika programowego renderującego 16-bitowego na X11 dla Evas.
 
 %package engine-software_generic
 Summary:		Software rendering common engine module for Evas
@@ -200,18 +236,6 @@ Software rendering common engine module for Evas.
 %description engine-software_generic -l pl.UTF-8
 Moduł wspólnego programowego silnika renderującego dla Evas.
 
-%package engine-software_sdl
-Summary:	SDL software rendering engine module for Evas
-Summary(pl.UTF-8):	Moduł silnika programowego renderującego na SDL dla Evas
-Group:		X11/Libraries
-Requires:	%{name}-engine-software_generic = %{version}-%{release}
-
-%description engine-software_sdl
-SDL software rendering engine module for Evas.
-
-%description engine-software_sdl -l pl.UTF-8
-Moduł silnika programowego renderującego na SDL dla Evas.
-
 %package engine-software_x11
 Summary:	Software X11 rendering engine module for Evas
 Summary(pl.UTF-8):	Moduł programowego silnika renderującego X11 dla Evas
@@ -224,6 +248,30 @@ Software X11 rendering engine module for Evas.
 
 %description engine-software_x11 -l pl.UTF-8
 Moduł programowego silnika renderującego X11 dla Evas.
+
+%package engine-wayland_egl
+Summary:	Wayland EGL rendering engine module for Evas
+Summary(pl.UTF-8):	Moduł silnika renderującego Wayland EGL dla Evas
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description engine-wayland_egl
+Wayland EGL rendering engine module for Evas.
+
+%description engine-wayland_egl -l pl.UTF-8
+Moduł silnika renderującego Wayland EGL dla Evas.
+
+%package engine-wayland_shm
+Summary:	Wayland SHM rendering engine module for Evas
+Summary(pl.UTF-8):	Moduł silnika renderującego Wayland SHM dla Evas
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description engine-wayland_shm
+Wayland SHM rendering engine module for Evas.
+
+%description engine-wayland_shm -l pl.UTF-8
+Moduł silnika renderującego Wayland SHM dla Evas.
 
 # loaders:
 %package loader-edb
@@ -419,6 +467,8 @@ Moduł zapisywania obrazów TIFF dla Evas.
 	--enable-fb%{!?with_fb:=no} \
 	--enable-font-loader-eet	\
 	--enable-gl-sdl%{!?with_sdl:=no} \
+	--enable-gl-xcb%{!?with_xcb:=no} \
+	--enable-gl-xlib \
 	--enable-image-loader-edb	\
 	--enable-image-loader-eet	\
 	--enable-image-loader-gif	\
@@ -428,14 +478,15 @@ Moduł zapisywania obrazów TIFF dla Evas.
 	--enable-image-loader-tiff	\
 	--enable-image-loader-xpm	\
 	--enable-pixman			\
-	--enable-software-sdl%{!?with_sdl:=no} \
+	--enable-software-16-sdl%{!?with_sdl:=no} \
+	--enable-software-16-x11 \
 	--enable-software-xcb%{!?with_xcb:=no} \
 	--enable-software-xlib \
-	--enable-gl-xcb%{!?with_xcb:=no} \
-	--enable-gl-xlib \
+	--enable-wayland-egl%{!?with_wayland:=no} \
+	--enable-wayland-shm%{!?with_wayland:=no} \
 	--disable-valgrind
 
-%{__make} V=1
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -498,9 +549,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/evas-fb.pc
 %{?with_sdl:%{_pkgconfigdir}/evas-opengl-sdl.pc}
 %{_pkgconfigdir}/evas-opengl-x11.pc
+%{_pkgconfigdir}/evas-software-16-x11.pc
 %{_pkgconfigdir}/evas-software-buffer.pc
 %{?with_sdl:%{_pkgconfigdir}/evas-software-sdl.pc}
 %{_pkgconfigdir}/evas-software-x11.pc
+%if %{with wayland}
+%{_pkgconfigdir}/evas-wayland-egl.pc
+%{_pkgconfigdir}/evas-wayland-shm.pc
+%endif
 %{_examplesdir}/%{name}-%{version}
 
 %if %{with static_libs}
@@ -545,6 +601,18 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/modules/engines/gl_x11/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/gl_x11/linux-gnu-*/module.so
 
+%files engine-software_16
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/engines/software_16
+%dir %{_libdir}/%{name}/modules/engines/software_16/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_16/linux-gnu-*/module.so
+
+%files engine-software_16_x11
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/engines/software_16_x11
+%dir %{_libdir}/%{name}/modules/engines/software_16_x11/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_16_x11/linux-gnu-*/module.so
+
 %if %{with sdl}
 %files engine-software_16_sdl
 %defattr(644,root,root,755)
@@ -559,19 +627,24 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/modules/engines/software_generic/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_generic/linux-gnu-*/module.so
 
-%if %{with sdl}
-%files engine-software_sdl
-%defattr(644,root,root,755)
-%dir %{_libdir}/%{name}/modules/engines/software_sdl
-%dir %{_libdir}/%{name}/modules/engines/software_sdl/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_sdl/linux-gnu-*/module.so
-%endif
-
 %files engine-software_x11
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/software_x11
 %dir %{_libdir}/%{name}/modules/engines/software_x11/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_x11/linux-gnu-*/module.so
+
+%if %{with wayland}
+%files engine-wayland_egl
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/engines/wayland_egl
+%dir %{_libdir}/%{name}/modules/engines/wayland_egl/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/wayland_egl/linux-gnu-*/module.so
+
+%files engine-wayland_shm
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/modules/engines/wayland_shm
+%dir %{_libdir}/%{name}/modules/engines/wayland_shm/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/wayland_shm/linux-gnu-*/module.so
 
 %files loader-edb
 %defattr(644,root,root,755)

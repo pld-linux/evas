@@ -8,7 +8,8 @@
 %bcond_without	directfb	# DirectFB engine
 %bcond_without	sdl		# SDL (OpenGL and software) engines
 %bcond_without	wayland		# wayland-egl, wayland-shm engines
-%bcond_with	xcb		# software*_x11/gl_x11 engines with XCB support (experimental)
+%bcond_without	xcb		# XCB engines (software_8_x11, possibly software_x11/gl_x11)
+%bcond_with	xcb_api		# software_x11/gl_x11 engines with XCB support (experimental)
 %bcond_without	static_libs	# don't build static library
 #
 %ifnarch i586 i686 pentium3 pentium4 athlon %{x8664}
@@ -19,6 +20,14 @@
 %endif
 %ifnarch ppc
 %undefine	with_altivec
+%endif
+%if %{without xcb}
+%undefine	xcb_api
+%endif
+%if %{with xcb_api}
+%define		xapi	xcb
+%else
+%define		xapi	xlib
 %endif
 #
 %define		edb_ver		1.0.5.043
@@ -103,6 +112,7 @@ Requires:	fontconfig-devel >= 2.5.0
 Requires:	freetype-devel >= 1:2.2
 Requires:	fribidi-devel >= 0.19.2
 Requires:	harfbuzz-devel >= 0.6.0
+Provides:	%{name}-devel(%{xapi}) = %{version}-%{release}
 
 %description devel
 Header files for Evas.
@@ -179,6 +189,7 @@ Summary:	OpenGL under X11 rendering engine module for Evas
 Summary(pl.UTF-8):	Moduł silnika renderującego na OpenGL pod X11 dla Evas
 Group:		X11/Libraries
 Requires:	%{name}-engine-software_generic = %{version}-%{release}
+Provides:	%{name}-engine-gl_x11(%{xapi}) = %{version}-%{release}
 
 %description engine-gl_x11
 OpenGL under X11 rendering engine module for Evas.
@@ -205,10 +216,11 @@ Group:		X11/Libraries
 Requires:	%{name}-engine-software_8 = %{version}-%{release}
 
 %description engine-software_8_x11
-8-bit X11 software rendering engine module for Evas.
+8-bit X11 (XCB) software rendering engine module for Evas.
 
 %description engine-software_8_x11 -l pl.UTF-8
-Moduł silnika programowego renderującego 8-bitowego na X11 dla Evas.
+Moduł silnika programowego renderującego 8-bitowego na X11 (XCB) dla
+Evas.
 
 %package engine-software_16
 Summary:	16-bit software rendering engine module for Evas
@@ -243,10 +255,11 @@ Group:		X11/Libraries
 Requires:	%{name}-engine-software_16 = %{version}-%{release}
 
 %description engine-software_16_x11
-16-bit X11 software rendering engine module for Evas.
+16-bit X11 (Xlib) software rendering engine module for Evas.
 
 %description engine-software_16_x11 -l pl.UTF-8
-Moduł silnika programowego renderującego 16-bitowego na X11 dla Evas.
+Moduł silnika programowego renderującego 16-bitowego na X11 (Xlib) dla
+Evas.
 
 %package engine-software_generic
 Summary:		Software rendering common engine module for Evas
@@ -491,7 +504,7 @@ Moduł zapisywania obrazów TIFF dla Evas.
 	--enable-fb%{!?with_fb:=no} \
 	--enable-font-loader-eet	\
 	--enable-gl-sdl%{!?with_sdl:=no} \
-	--enable-gl-xcb%{!?with_xcb:=no} \
+	--enable-gl-xcb%{!?with_xcb_api:=no} \
 	--enable-gl-xlib \
 	--enable-image-loader-edb	\
 	--enable-image-loader-eet	\
@@ -502,10 +515,10 @@ Moduł zapisywania obrazów TIFF dla Evas.
 	--enable-image-loader-tiff	\
 	--enable-image-loader-xpm	\
 	--enable-pixman			\
-	--enable-software-8-x11 \
+	--enable-software-8-x11%{!?with_xcb:=no} \
 	--enable-software-16-sdl%{!?with_sdl:=no} \
 	--enable-software-16-x11 \
-	--enable-software-xcb%{!?with_xcb:=no} \
+	--enable-software-xcb%{!?with_xcb_api:=no} \
 	--enable-software-xlib \
 	--enable-wayland-egl%{!?with_wayland:=no} \
 	--enable-wayland-shm%{!?with_wayland:=no} \
@@ -574,7 +587,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/evas-fb.pc
 %{?with_sdl:%{_pkgconfigdir}/evas-opengl-sdl.pc}
 %{_pkgconfigdir}/evas-opengl-x11.pc
-%{_pkgconfigdir}/evas-software-8-x11.pc
+%{?with_xcb:%{_pkgconfigdir}/evas-software-8-x11.pc}
 %{_pkgconfigdir}/evas-software-16-x11.pc
 %{_pkgconfigdir}/evas-software-buffer.pc
 %{?with_sdl:%{_pkgconfigdir}/evas-software-sdl.pc}
@@ -627,6 +640,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/modules/engines/gl_x11/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/gl_x11/linux-gnu-*/module.so
 
+%if %{with xcb}
 %files engine-software_8
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/software_8
@@ -638,6 +652,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/modules/engines/software_8_x11
 %dir %{_libdir}/%{name}/modules/engines/software_8_x11/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_8_x11/linux-gnu-*/module.so
+%endif
 
 %files engine-software_16
 %defattr(644,root,root,755)

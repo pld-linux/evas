@@ -36,12 +36,12 @@
 Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
-Version:	1.2.0
+Version:	1.2.1
 Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	http://download.enlightenment.org/releases/%{name}-%{version}.tar.bz2
-# Source0-md5:	a245e432695cea1120d43cdbcb94b7f7
+# Source0-md5:	0b8dd697b76dcc5511c463f314719899
 Patch0:		%{name}-harfbuzz.patch
 Patch1:		%{name}-wayland.patch
 URL:		http://trac.enlightenment.org/e/wiki/Evas

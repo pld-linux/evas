@@ -7,6 +7,7 @@
 %bcond_without	fb		# FB engine
 %bcond_without	directfb	# DirectFB engine
 %bcond_without	sdl		# SDL (OpenGL and software) engines
+%bcond_with	svg		# Esvg-based SVG loader
 %bcond_without	wayland		# wayland-egl, wayland-shm engines
 %bcond_without	xcb		# XCB engines (software_8_x11, possibly software_x11/gl_x11)
 %bcond_with	xcb_api		# software_x11/gl_x11 engines with XCB support (experimental)
@@ -31,19 +32,18 @@
 %endif
 #
 %define		edb_ver		1.0.5.043
-%define		eet_ver 	1.6.0
+%define		eet_ver 	1.7.0
 
 Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
-Version:	1.2.1
+Version:	1.7.0
 Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	http://download.enlightenment.org/releases/%{name}-%{version}.tar.bz2
-# Source0-md5:	0b8dd697b76dcc5511c463f314719899
-Patch0:		%{name}-harfbuzz.patch
-Patch1:		%{name}-wayland.patch
+# Source0-md5:	37411199fe3af65884ccacaa21c304bd
+Patch0:		%{name}-wayland.patch
 URL:		http://trac.enlightenment.org/e/wiki/Evas
 %{?with_directfb:BuildRequires:	DirectFB-devel >= 0.9.16}
 BuildRequires:	Mesa-libGLU-devel
@@ -52,15 +52,15 @@ BuildRequires:	autoconf >= 2.59-9
 BuildRequires:	automake >= 1.6
 BuildRequires:	edb-devel >= %{edb_ver}
 BuildRequires:	eet-devel >= %{eet_ver}
-BuildRequires:	eina-devel >= 1.2.0
+BuildRequires:	eina-devel >= 1.6.0
+%{?with_svg:BuildRequires:	esvg-devel >= 0.0.16}
 BuildRequires:	fontconfig-devel >= 2.5.0
 BuildRequires:	freetype-devel >= 1:2.2
 BuildRequires:	fribidi-devel >= 0.19.2
 BuildRequires:	giflib-devel
-BuildRequires:	harfbuzz-devel >= 0.6.0
+BuildRequires:	harfbuzz-devel >= 0.9.0
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel >= 1.2
-BuildRequires:	librsvg-devel >= 1:2.14.0
 BuildRequires:	libtiff-devel
 BuildRequires:	libtool
 BuildRequires:	pixman-devel
@@ -79,10 +79,10 @@ BuildRequires:	Mesa-libwayland-egl-devel
 BuildRequires:	wayland-devel
 %endif
 Requires:	eet >= %{eet_ver}
-Requires:	eina >= 1.2.0
+Requires:	eina >= 1.6.0
 Requires:	freetype >= 1:2.2
 Requires:	fribidi >= 0.19.2
-Requires:	harfbuzz >= 0.6.0
+Requires:	harfbuzz >= 0.9.0
 Obsoletes:	evas-libs
 Obsoletes:	evas-engine-software_qtopia
 Obsoletes:	evas-engine-xrender_x11
@@ -107,11 +107,11 @@ Summary(pl.UTF-8):	Pliki nagłówkowe Evas
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	eet-devel >= %{eet_ver}
-Requires:	eina-devel >= 1.2.0
+Requires:	eina-devel >= 1.6.0
 Requires:	fontconfig-devel >= 2.5.0
 Requires:	freetype-devel >= 1:2.2
 Requires:	fribidi-devel >= 0.19.2
-Requires:	harfbuzz-devel >= 0.6.0
+Requires:	harfbuzz-devel >= 0.9.0
 Provides:	%{name}-devel(%{xapi}) = %{version}-%{release}
 
 %description devel
@@ -388,7 +388,7 @@ Summary:	SVG Image loader module for Evas
 Summary(pl.UTF-8):	Moduł wczytywania obrazów SVG dla Evas
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	librsvg >= 1:2.14.0
+Requires:	esvg >= 0.0.16
 
 %description loader-svg
 SVG Image loader module for Evas.
@@ -484,7 +484,6 @@ Moduł zapisywania obrazów TIFF dla Evas.
 %prep
 %setup -q -n %{name}-%{version}
 %patch0 -p1
-%patch1 -p1
 
 %build
 %{__libtoolize}
@@ -511,7 +510,7 @@ Moduł zapisywania obrazów TIFF dla Evas.
 	--enable-image-loader-gif	\
 	--enable-image-loader-jpeg	\
 	--enable-image-loader-png	\
-	--enable-image-loader-svg	\
+	--enable-image-loader-svg%{!?with_svg:=no} \
 	--enable-image-loader-tiff	\
 	--enable-image-loader-xpm	\
 	--enable-pixman			\
@@ -532,6 +531,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/cserve2/*/*/*/module.la
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/modules/*/*/*/module.la
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/modules/engines/software_16_sdl/linux-gnu-*/module.a
 
@@ -547,11 +547,33 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS COPYING ChangeLog NEWS README
-%attr(755,root,root) %{_bindir}/evas_cserve
-%attr(755,root,root) %{_bindir}/evas_cserve_tool
+%attr(755,root,root) %{_bindir}/evas_cserve2_client
+%attr(755,root,root) %{_bindir}/evas_cserve2_debug
+%attr(755,root,root) %{_bindir}/evas_cserve2_usage
 %attr(755,root,root) %{_libdir}/libevas.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libevas.so.1
+%attr(755,root,root) %{_libexecdir}/dummy_slave
+%attr(755,root,root) %{_libexecdir}/evas_cserve2
+%attr(755,root,root) %{_libexecdir}/evas_cserve2_slave
 %dir %{_libdir}/%{name}
+%dir %{_libdir}/%{name}/cserve2
+%dir %{_libdir}/%{name}/cserve2/loaders
+# loaders without additional dependencies
+%dir %{_libdir}/%{name}/cserve2/loaders/bmp
+%dir %{_libdir}/%{name}/cserve2/loaders/bmp/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/bmp/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/cserve2/loaders/ico
+%dir %{_libdir}/%{name}/cserve2/loaders/ico/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/ico/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/cserve2/loaders/psd
+%dir %{_libdir}/%{name}/cserve2/loaders/psd/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/psd/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/cserve2/loaders/tga
+%dir %{_libdir}/%{name}/cserve2/loaders/tga/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/tga/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/cserve2/loaders/wbmp
+%dir %{_libdir}/%{name}/cserve2/loaders/wbmp/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/wbmp/linux-gnu-*/module.so
 %dir %{_libdir}/%{name}/modules
 %dir %{_libdir}/%{name}/modules/engines
 %dir %{_libdir}/%{name}/modules/loaders
@@ -575,6 +597,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/modules/loaders/wbmp
 %dir %{_libdir}/%{name}/modules/loaders/wbmp/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/loaders/wbmp/linux-gnu-*/module.so
+%{_datadir}/%{name}
 
 %files devel
 %defattr(644,root,root,755)
@@ -698,6 +721,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/modules/engines/wayland_shm
 %dir %{_libdir}/%{name}/modules/engines/wayland_shm/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/engines/wayland_shm/linux-gnu-*/module.so
+%endif
 
 %files loader-edb
 %defattr(644,root,root,755)
@@ -707,6 +731,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files loader-eet
 %defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/cserve2/loaders/eet
+%dir %{_libdir}/%{name}/cserve2/loaders/eet/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/eet/linux-gnu-*/module.so
 %dir %{_libdir}/%{name}/modules/loaders/eet
 %dir %{_libdir}/%{name}/modules/loaders/eet/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/loaders/eet/linux-gnu-*/module.so
@@ -719,36 +746,53 @@ rm -rf $RPM_BUILD_ROOT
 
 %files loader-jpeg
 %defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/cserve2/loaders/jpeg
+%dir %{_libdir}/%{name}/cserve2/loaders/jpeg/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/jpeg/linux-gnu-*/module.so
 %dir %{_libdir}/%{name}/modules/loaders/jpeg
 %dir %{_libdir}/%{name}/modules/loaders/jpeg/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/loaders/jpeg/linux-gnu-*/module.so
 
 %files loader-pmaps
 %defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/cserve2/loaders/pmaps
+%dir %{_libdir}/%{name}/cserve2/loaders/pmaps/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/pmaps/linux-gnu-*/module.so
 %dir %{_libdir}/%{name}/modules/loaders/pmaps
 %dir %{_libdir}/%{name}/modules/loaders/pmaps/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/loaders/pmaps/linux-gnu-*/module.so
 
 %files loader-png
 %defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/cserve2/loaders/png
+%dir %{_libdir}/%{name}/cserve2/loaders/png/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/png/linux-gnu-*/module.so
 %dir %{_libdir}/%{name}/modules/loaders/png
 %dir %{_libdir}/%{name}/modules/loaders/png/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/loaders/png/linux-gnu-*/module.so
 
+%if %{with svg}
 %files loader-svg
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/loaders/svg
 %dir %{_libdir}/%{name}/modules/loaders/svg/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/loaders/svg/linux-gnu-*/module.so
+%endif
 
 %files loader-tiff
 %defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/cserve2/loaders/tiff
+%dir %{_libdir}/%{name}/cserve2/loaders/tiff/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/tiff/linux-gnu-*/module.so
 %dir %{_libdir}/%{name}/modules/loaders/tiff
 %dir %{_libdir}/%{name}/modules/loaders/tiff/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/loaders/tiff/linux-gnu-*/module.so
 
 %files loader-xpm
 %defattr(644,root,root,755)
+%dir %{_libdir}/%{name}/cserve2/loaders/xpm
+%dir %{_libdir}/%{name}/cserve2/loaders/xpm/linux-gnu-*
+%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/xpm/linux-gnu-*/module.so
 %dir %{_libdir}/%{name}/modules/loaders/xpm
 %dir %{_libdir}/%{name}/modules/loaders/xpm/linux-gnu-*
 %attr(755,root,root) %{_libdir}/%{name}/modules/loaders/xpm/linux-gnu-*/module.so

@@ -26,15 +26,6 @@
  #    include <GLES2/gl2.h>
  #    include <GLES2/gl2ext.h>
  #   endif
-@@ -341,7 +341,7 @@
-    /* If this is set: Force drawing with a particular filter */
-    GLuint	filter_prog;
- 
--#if defined (GLES_VARIETY_S3C6410) || defined (GLES_VARIETY_SGX)
-+#if defined (GLES_VARIETY_S3C6410) || defined (GLES_VARIETY_SGX) || defined (GLES_WAYLAND)
- // FIXME: hack. expose egl display to gl core for egl image sec extn.
-    void *egldisp;
- #endif
 @@ -633,7 +633,7 @@
  extern void (*glsym_glProgramParameteri)    (GLuint a, GLuint b, GLint d);
  extern void (*glsym_glReleaseShaderCompiler)(void);

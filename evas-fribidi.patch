@@ -1,0 +1,10 @@
+--- evas-1.7.6.1/src/lib/engines/common_8/Makefile.am.orig	2012-11-23 17:35:06.000000000 +0100
++++ evas-1.7.6.1/src/lib/engines/common_8/Makefile.am	2013-04-07 19:29:09.633616777 +0200
+@@ -6,6 +6,7 @@
+ -I$(top_srcdir)/src/lib \
+ -I$(top_srcdir)/src/lib/include \
+ @FREETYPE_CFLAGS@ \
++@FRIBIDI_CFLAGS@ \
+ @PIXMAN_CFLAGS@ \
+ @VALGRIND_CFLAGS@ \
+ @EVAS_GENERAL_CFLAGS@ \

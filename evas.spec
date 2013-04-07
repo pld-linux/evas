@@ -37,13 +37,14 @@
 Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
-Version:	1.7.5
+Version:	1.7.6.1
 Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	http://download.enlightenment.org/releases/%{name}-%{version}.tar.bz2
-# Source0-md5:	2c965b836128a839292161d4ca89380d
+# Source0-md5:	65d40c3fd08a815efe50cf77c40b5c64
 Patch0:		%{name}-wayland.patch
+Patch1:		%{name}-fribidi.patch
 URL:		http://trac.enlightenment.org/e/wiki/Evas
 %{?with_directfb:BuildRequires:	DirectFB-devel >= 0.9.16}
 BuildRequires:	Mesa-libGLU-devel
@@ -484,6 +485,7 @@ Moduł zapisywania obrazów TIFF dla Evas.
 %prep
 %setup -q -n %{name}-%{version}
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__libtoolize}

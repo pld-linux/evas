@@ -33,16 +33,17 @@
 #
 %define		edb_ver		1.0.5.043
 %define		eet_ver 	1.7.0
+%define		eina_ver 	1.7.9
 
 Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
-Version:	1.7.7
-Release:	3
+Version:	1.7.9
+Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	http://download.enlightenment.org/releases/%{name}-%{version}.tar.bz2
-# Source0-md5:	6f6bd375c37c3b01b9a4c622a77e72c6
+# Source0-md5:	2d88658779c4cd836d8a3735435d6bb6
 Patch0:		%{name}-wayland.patch
 Patch1:		%{name}-fribidi.patch
 URL:		http://trac.enlightenment.org/e/wiki/Evas
@@ -53,7 +54,7 @@ BuildRequires:	autoconf >= 2.59-9
 BuildRequires:	automake >= 1.6
 BuildRequires:	edb-devel >= %{edb_ver}
 BuildRequires:	eet-devel >= %{eet_ver}
-BuildRequires:	eina-devel >= 1.6.0
+BuildRequires:	eina-devel >= %{eina_ver}
 %{?with_svg:BuildRequires:	esvg-devel >= 0.0.16}
 BuildRequires:	fontconfig-devel >= 2.5.0
 BuildRequires:	freetype-devel >= 1:2.2
@@ -80,7 +81,7 @@ BuildRequires:	Mesa-libwayland-egl-devel
 BuildRequires:	wayland-devel
 %endif
 Requires:	eet >= %{eet_ver}
-Requires:	eina >= 1.6.0
+Requires:	eina >= %{eina_ver}
 Requires:	freetype >= 1:2.2
 Requires:	fribidi >= 0.19.2
 Requires:	harfbuzz >= 0.9.0
@@ -108,7 +109,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe Evas
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	eet-devel >= %{eet_ver}
-Requires:	eina-devel >= 1.6.0
+Requires:	eina-devel >= %{eina_ver}
 Requires:	fontconfig-devel >= 2.5.0
 Requires:	freetype-devel >= 1:2.2
 Requires:	fribidi-devel >= 0.19.2

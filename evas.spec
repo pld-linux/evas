@@ -1,3 +1,4 @@
+# NOTE: for versions >= 1.8 see efl.spec
 # TODO: use system liblinebreak?
 #
 # Conditional build:

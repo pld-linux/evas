@@ -34,17 +34,17 @@
 #
 %define		edb_ver		1.0.5.043
 %define		eet_ver 	1.7.0
-%define		eina_ver 	1.7.9
+%define		eina_ver 	1.7.10
 
 Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
-Version:	1.7.9
+Version:	1.7.10
 Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	http://download.enlightenment.org/releases/%{name}-%{version}.tar.bz2
-# Source0-md5:	2d88658779c4cd836d8a3735435d6bb6
+# Source0-md5:	ae96df73b30f4957aebe32c13d75cb49
 Patch0:		%{name}-wayland.patch
 Patch1:		%{name}-fribidi.patch
 URL:		http://trac.enlightenment.org/e/wiki/Evas

@@ -40,7 +40,7 @@ Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania
 Name:		evas
 Version:	1.7.10
-Release:	6
+Release:	6.1
 License:	BSD
 Group:		Libraries
 Source0:	http://download.enlightenment.org/releases/%{name}-%{version}.tar.bz2
@@ -539,7 +539,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/cserve2/*/*/*/module.la
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/modules/*/*/*/module.la
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/modules/engines/software_16_sdl/linux-gnu-*/module.a
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/modules/engines/software_16_sdl/linux-gnu*-*/module.a
 
 install -d $RPM_BUILD_ROOT%{_examplesdir}
 mv -f $RPM_BUILD_ROOT%{_datadir}/evas/examples $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
@@ -566,43 +566,43 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/cserve2/loaders
 # loaders without additional dependencies
 %dir %{_libdir}/%{name}/cserve2/loaders/bmp
-%dir %{_libdir}/%{name}/cserve2/loaders/bmp/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/bmp/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/cserve2/loaders/bmp/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/bmp/linux-gnu*-*/module.so
 %dir %{_libdir}/%{name}/cserve2/loaders/ico
-%dir %{_libdir}/%{name}/cserve2/loaders/ico/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/ico/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/cserve2/loaders/ico/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/ico/linux-gnu*-*/module.so
 %dir %{_libdir}/%{name}/cserve2/loaders/psd
-%dir %{_libdir}/%{name}/cserve2/loaders/psd/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/psd/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/cserve2/loaders/psd/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/psd/linux-gnu*-*/module.so
 %dir %{_libdir}/%{name}/cserve2/loaders/tga
-%dir %{_libdir}/%{name}/cserve2/loaders/tga/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/tga/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/cserve2/loaders/tga/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/tga/linux-gnu*-*/module.so
 %dir %{_libdir}/%{name}/cserve2/loaders/wbmp
-%dir %{_libdir}/%{name}/cserve2/loaders/wbmp/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/wbmp/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/cserve2/loaders/wbmp/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/wbmp/linux-gnu*-*/module.so
 %dir %{_libdir}/%{name}/modules
 %dir %{_libdir}/%{name}/modules/engines
 %dir %{_libdir}/%{name}/modules/loaders
 %dir %{_libdir}/%{name}/modules/savers
 # loaders without additional dependencies
 %dir %{_libdir}/%{name}/modules/loaders/bmp
-%dir %{_libdir}/%{name}/modules/loaders/bmp/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/bmp/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/loaders/bmp/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/bmp/linux-gnu*-*/module.so
 %dir %{_libdir}/%{name}/modules/loaders/generic
-%dir %{_libdir}/%{name}/modules/loaders/generic/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/generic/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/loaders/generic/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/generic/linux-gnu*-*/module.so
 %dir %{_libdir}/%{name}/modules/loaders/ico
-%dir %{_libdir}/%{name}/modules/loaders/ico/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/ico/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/loaders/ico/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/ico/linux-gnu*-*/module.so
 %dir %{_libdir}/%{name}/modules/loaders/psd
-%dir %{_libdir}/%{name}/modules/loaders/psd/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/psd/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/loaders/psd/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/psd/linux-gnu*-*/module.so
 %dir %{_libdir}/%{name}/modules/loaders/tga
-%dir %{_libdir}/%{name}/modules/loaders/tga/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/tga/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/loaders/tga/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/tga/linux-gnu*-*/module.so
 %dir %{_libdir}/%{name}/modules/loaders/wbmp
-%dir %{_libdir}/%{name}/modules/loaders/wbmp/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/wbmp/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/loaders/wbmp/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/wbmp/linux-gnu*-*/module.so
 %{_datadir}/%{name}
 
 %files devel
@@ -636,199 +636,199 @@ rm -rf $RPM_BUILD_ROOT
 %files engine-buffer
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/buffer
-%dir %{_libdir}/%{name}/modules/engines/buffer/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/buffer/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/engines/buffer/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/buffer/linux-gnu*-*/module.so
 
 %if %{with directfb}
 %files engine-directfb
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/directfb
-%dir %{_libdir}/%{name}/modules/engines/directfb/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/directfb/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/engines/directfb/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/directfb/linux-gnu*-*/module.so
 %endif
 
 %if %{with fb}
 %files engine-fb
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/fb
-%dir %{_libdir}/%{name}/modules/engines/fb/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/fb/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/engines/fb/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/fb/linux-gnu*-*/module.so
 %endif
 
 %if %{with sdl}
 %files engine-gl_sdl
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/gl_sdl
-%dir %{_libdir}/%{name}/modules/engines/gl_sdl/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/gl_sdl/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/engines/gl_sdl/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/gl_sdl/linux-gnu*-*/module.so
 %endif
 
 %files engine-gl_x11
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/gl_x11
-%dir %{_libdir}/%{name}/modules/engines/gl_x11/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/gl_x11/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/engines/gl_x11/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/gl_x11/linux-gnu*-*/module.so
 
 %if %{with xcb}
 %files engine-software_8
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/software_8
-%dir %{_libdir}/%{name}/modules/engines/software_8/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_8/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/engines/software_8/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_8/linux-gnu*-*/module.so
 
 %files engine-software_8_x11
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/software_8_x11
-%dir %{_libdir}/%{name}/modules/engines/software_8_x11/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_8_x11/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/engines/software_8_x11/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_8_x11/linux-gnu*-*/module.so
 %endif
 
 %files engine-software_16
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/software_16
-%dir %{_libdir}/%{name}/modules/engines/software_16/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_16/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/engines/software_16/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_16/linux-gnu*-*/module.so
 
 %files engine-software_16_x11
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/software_16_x11
-%dir %{_libdir}/%{name}/modules/engines/software_16_x11/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_16_x11/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/engines/software_16_x11/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_16_x11/linux-gnu*-*/module.so
 
 %if %{with sdl}
 %files engine-software_16_sdl
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/software_16_sdl
-%dir %{_libdir}/%{name}/modules/engines/software_16_sdl/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_16_sdl/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/engines/software_16_sdl/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_16_sdl/linux-gnu*-*/module.so
 %endif
 
 %files engine-software_generic
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/software_generic
-%dir %{_libdir}/%{name}/modules/engines/software_generic/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_generic/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/engines/software_generic/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_generic/linux-gnu*-*/module.so
 
 %files engine-software_x11
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/software_x11
-%dir %{_libdir}/%{name}/modules/engines/software_x11/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_x11/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/engines/software_x11/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/software_x11/linux-gnu*-*/module.so
 
 %if %{with wayland}
 %files engine-wayland_egl
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/wayland_egl
-%dir %{_libdir}/%{name}/modules/engines/wayland_egl/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/wayland_egl/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/engines/wayland_egl/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/wayland_egl/linux-gnu*-*/module.so
 
 %files engine-wayland_shm
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/engines/wayland_shm
-%dir %{_libdir}/%{name}/modules/engines/wayland_shm/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/engines/wayland_shm/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/engines/wayland_shm/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/engines/wayland_shm/linux-gnu*-*/module.so
 %endif
 
 %files loader-edb
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/loaders/edb
-%dir %{_libdir}/%{name}/modules/loaders/edb/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/edb/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/loaders/edb/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/edb/linux-gnu*-*/module.so
 
 %files loader-eet
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/cserve2/loaders/eet
-%dir %{_libdir}/%{name}/cserve2/loaders/eet/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/eet/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/cserve2/loaders/eet/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/eet/linux-gnu*-*/module.so
 %dir %{_libdir}/%{name}/modules/loaders/eet
-%dir %{_libdir}/%{name}/modules/loaders/eet/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/eet/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/loaders/eet/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/eet/linux-gnu*-*/module.so
 
 %files loader-gif
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/loaders/gif
-%dir %{_libdir}/%{name}/modules/loaders/gif/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/gif/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/loaders/gif/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/gif/linux-gnu*-*/module.so
 
 %files loader-jpeg
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/cserve2/loaders/jpeg
-%dir %{_libdir}/%{name}/cserve2/loaders/jpeg/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/jpeg/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/cserve2/loaders/jpeg/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/jpeg/linux-gnu*-*/module.so
 %dir %{_libdir}/%{name}/modules/loaders/jpeg
-%dir %{_libdir}/%{name}/modules/loaders/jpeg/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/jpeg/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/loaders/jpeg/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/jpeg/linux-gnu*-*/module.so
 
 %files loader-pmaps
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/cserve2/loaders/pmaps
-%dir %{_libdir}/%{name}/cserve2/loaders/pmaps/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/pmaps/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/cserve2/loaders/pmaps/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/pmaps/linux-gnu*-*/module.so
 %dir %{_libdir}/%{name}/modules/loaders/pmaps
-%dir %{_libdir}/%{name}/modules/loaders/pmaps/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/pmaps/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/loaders/pmaps/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/pmaps/linux-gnu*-*/module.so
 
 %files loader-png
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/cserve2/loaders/png
-%dir %{_libdir}/%{name}/cserve2/loaders/png/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/png/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/cserve2/loaders/png/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/png/linux-gnu*-*/module.so
 %dir %{_libdir}/%{name}/modules/loaders/png
-%dir %{_libdir}/%{name}/modules/loaders/png/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/png/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/loaders/png/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/png/linux-gnu*-*/module.so
 
 %if %{with svg}
 %files loader-svg
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/loaders/svg
-%dir %{_libdir}/%{name}/modules/loaders/svg/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/svg/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/loaders/svg/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/svg/linux-gnu*-*/module.so
 %endif
 
 %files loader-tiff
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/cserve2/loaders/tiff
-%dir %{_libdir}/%{name}/cserve2/loaders/tiff/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/tiff/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/cserve2/loaders/tiff/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/tiff/linux-gnu*-*/module.so
 %dir %{_libdir}/%{name}/modules/loaders/tiff
-%dir %{_libdir}/%{name}/modules/loaders/tiff/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/tiff/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/loaders/tiff/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/tiff/linux-gnu*-*/module.so
 
 %files loader-xpm
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/cserve2/loaders/xpm
-%dir %{_libdir}/%{name}/cserve2/loaders/xpm/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/xpm/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/cserve2/loaders/xpm/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/cserve2/loaders/xpm/linux-gnu*-*/module.so
 %dir %{_libdir}/%{name}/modules/loaders/xpm
-%dir %{_libdir}/%{name}/modules/loaders/xpm/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/xpm/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/loaders/xpm/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/loaders/xpm/linux-gnu*-*/module.so
 
 %files saver-edb
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/savers/edb
-%dir %{_libdir}/%{name}/modules/savers/edb/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/savers/edb/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/savers/edb/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/savers/edb/linux-gnu*-*/module.so
 
 %files saver-eet
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/savers/eet
-%dir %{_libdir}/%{name}/modules/savers/eet/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/savers/eet/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/savers/eet/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/savers/eet/linux-gnu*-*/module.so
 
 %files saver-jpeg
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/savers/jpeg
-%dir %{_libdir}/%{name}/modules/savers/jpeg/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/savers/jpeg/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/savers/jpeg/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/savers/jpeg/linux-gnu*-*/module.so
 
 %files saver-png
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/savers/png
-%dir %{_libdir}/%{name}/modules/savers/png/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/savers/png/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/savers/png/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/savers/png/linux-gnu*-*/module.so
 
 %files saver-tiff
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/modules/savers/tiff
-%dir %{_libdir}/%{name}/modules/savers/tiff/linux-gnu-*
-%attr(755,root,root) %{_libdir}/%{name}/modules/savers/tiff/linux-gnu-*/module.so
+%dir %{_libdir}/%{name}/modules/savers/tiff/linux-gnu*-*
+%attr(755,root,root) %{_libdir}/%{name}/modules/savers/tiff/linux-gnu*-*/module.so

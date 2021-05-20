@@ -50,7 +50,7 @@ Patch1:		%{name}-fribidi.patch
 Patch2:		%{name}-giflib.patch
 URL:		http://trac.enlightenment.org/e/wiki/Evas
 %{?with_directfb:BuildRequires:	DirectFB-devel >= 0.9.16}
-BuildRequires:	Mesa-libGLU-devel
+BuildRequires:	OpenGL-GLU-devel
 %{?with_sdl:BuildRequires:	SDL-devel >= 1.2.0}
 BuildRequires:	autoconf >= 2.59-9
 BuildRequires:	automake >= 1.6
@@ -76,11 +76,14 @@ BuildRequires:	libxcb-devel
 BuildRequires:	xcb-util-image-devel >= 0.2.1
 %endif
 %if %{with wayland}
+BuildRequires:	EGL-devel
 BuildRequires:	OpenGL-devel
-BuildRequires:	Mesa-libEGL-devel >= 7.10
-BuildRequires:	Mesa-libGLES-devel
-BuildRequires:	Mesa-libwayland-egl-devel
+BuildRequires:	OpenGLES-devel
+BuildRequires:	pkgconfig(egl) >= 7.10
+BuildRequires:	pkgconfig(gl)
+BuildRequires:	pkgconfig(glesv2)
 BuildRequires:	wayland-devel
+BuildRequires:	wayland-egl-devel
 %endif
 Requires:	eet >= %{eet_ver}
 Requires:	eina >= %{eina_ver}

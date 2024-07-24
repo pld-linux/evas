@@ -90,10 +90,11 @@ Requires:	eina >= %{eina_ver}
 Requires:	freetype >= 1:2.2
 Requires:	fribidi >= 0.19.2
 Requires:	harfbuzz >= 0.9.0
-Obsoletes:	evas-libs
-Obsoletes:	evas-engine-software_qtopia
-Obsoletes:	evas-engine-xrender_x11
-Obsoletes:	evas-engine-xrender_xcb
+Obsoletes:	evas-libs < 0.9.9.036
+Obsoletes:	evas-engine-glitz_x11 < 1.0.0-1
+Obsoletes:	evas-engine-software_qtopia < 1.1
+Obsoletes:	evas-engine-xrender_x11 < 1.1
+Obsoletes:	evas-engine-xrender_xcb < 1.0.0-1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %undefine	__cxx
@@ -247,7 +248,7 @@ Summary(pl.UTF-8):	Moduł silnika programowego renderującego 16-bitowego na SDL
 Group:		X11/Libraries
 Requires:	%{name}-engine-software_16 = %{version}-%{release}
 Requires:	SDL >= 1.2.0
-Obsoletes:	evas-engine-software_sdl
+Obsoletes:	evas-engine-software_sdl < 1.2
 
 %description engine-software_16_sdl
 16-bit SDL software rendering engine module for Evas.
@@ -285,7 +286,7 @@ Summary:	Software X11 rendering engine module for Evas
 Summary(pl.UTF-8):	Moduł programowego silnika renderującego X11 dla Evas
 Group:		X11/Libraries
 Requires:	%{name}-engine-software_generic = %{version}-%{release}
-Obsoletes:	evas-engine-software_xcb
+Obsoletes:	evas-engine-software_xcb < 1.0.0-1
 
 %description engine-software_x11
 Software X11 rendering engine module for Evas.
